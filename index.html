@@ -17,6 +17,11 @@
       background-repeat: no-repeat;
       background-attachment: fixed;
     }
+    /* iOS suele fallar con background fixed; en móvil lo desactivamos */
+    @media (max-width: 768px){
+      body{ background-attachment: scroll; }
+    }
+
     .page-overlay{
       min-height:100vh;
       background: rgba(0,0,0,0.25);
@@ -44,7 +49,6 @@
 
     .form{display:grid; gap:10px;}
 
-    /* === Ajuste solicitado: inputs más angostos (como tu imagen 2) === */
     .row{
       display:grid;
       grid-template-columns: 120px 300px;
@@ -160,7 +164,7 @@
           </div>
 
           <div class="actions">
-            <button class="primary" id="btnGenerar" type="button">Generar</button>
+            <button class="primary" id="btnGenerar" type="button" aria-label="Generar vista previa">Generar</button>
             <button id="btnLimpiar" type="button">Limpiar</button>
           </div>
         </div>
@@ -208,11 +212,21 @@
     };
   }
 
+  // ==== NUEVO: firma “ajustada” en modo captura, sin márgenes extra ====
   function buildFirmaHTML(data, fixedWidth){
-    const widthStyle = fixedWidth ? "width:720px;" : "width:100%;";
+    const isCapture = !!fixedWidth;
+
+    const baseStyle = isCapture
+      ? "display:inline-flex;gap:14px;align-items:center;background:#fff;padding:12px 14px;border:1px solid #e5e7eb;border-radius:12px;"
+      : "width:100%;display:flex;gap:14px;align-items:center;background:#fff;";
+
+    const leftStyle = isCapture
+      ? "flex:0 1 auto;min-width:220px;max-width:520px;"
+      : "flex:1;min-width:220px;";
+
     return `
-      <div class="${fixedWidth ? "" : "firmaPreview"}" style="${widthStyle}display:flex;gap:14px;align-items:center;background:#fff;">
-        <div class="sigLeft" style="flex:1;min-width:220px;">
+      <div class="${isCapture ? "" : "firmaPreview"}" style="${baseStyle}">
+        <div class="sigLeft" style="${leftStyle}">
           <div class="sigName" style="font-size:22px;font-weight:800;margin:0 0 2px;">${esc(data.nombre)}</div>
           <div class="sigRole" style="font-size:14px;margin:0 0 10px;color:#111827;">${esc(data.cargo)}</div>
           <div class="sigPhone" style="font-size:14px;font-weight:800;margin:0 0 2px;">${esc(data.telefono)}</div>
@@ -251,7 +265,7 @@
   });
 
   $("btnGmail").addEventListener("click", ()=>{
-    window.open("https://docs.google.com/document/d/1rwJR7VNI9PRI4qNyL5AO1308kTgkb6Y-ntX6AZaaSGc/edit?usp=sharing", "_blank");
+    window.open("https://docs.google.com/document/d/1rwJR7VNI9PRI4qNyL5AO1308kTgkb6Y-ntX6AZaaSGc/edit?usp=sharing", "_blank", "noopener,noreferrer");
   });
 
   $("btnDescargarPng").addEventListener("click", async ()=>{
@@ -272,7 +286,13 @@
 
     try{
       const node = host.firstElementChild;
-      const canvas = await html2canvas(node, { backgroundColor: "#ffffff", scale: 2, useCORS: true });
+      const canvas = await html2canvas(node, {
+        backgroundColor: "#ffffff",
+        scale: 2,
+        useCORS: true,
+        windowWidth: node.scrollWidth,
+        windowHeight: node.scrollHeight
+      });
       const a = document.createElement("a");
       a.href = canvas.toDataURL("image/png");
       a.download = "firma-cafe-las-flores.png";
@@ -287,3 +307,4 @@
   </div>
 </body>
 </html>
+
