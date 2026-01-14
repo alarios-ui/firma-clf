@@ -17,26 +17,15 @@
       background-repeat: no-repeat;
       background-attachment: fixed;
     }
-    /* iOS suele fallar con background fixed; en móvil lo desactivamos */
     @media (max-width: 768px){
       body{ background-attachment: scroll; }
     }
 
-    .page-overlay{
-      min-height:100vh;
-      background: rgba(0,0,0,0.25);
-    }
-
+    .page-overlay{ min-height:100vh; background: rgba(0,0,0,0.25); }
     .wrap{max-width:980px; margin:0 auto; padding:18px 16px 28px;}
     h1{
-      margin:0 0 10px;
-      font-size:34px;
-      font-weight:800;
-      color:#ffffff;
-      text-shadow:
-        0 0 4px rgba(255,255,255,0.6),
-        0 0 10px rgba(255,255,255,0.35),
-        1px 1px 2px rgba(0,0,0,0.8);
+      margin:0 0 10px; font-size:34px; font-weight:800; color:#ffffff;
+      text-shadow: 0 0 4px rgba(255,255,255,0.6), 0 0 10px rgba(255,255,255,0.35), 1px 1px 2px rgba(0,0,0,0.8);
     }
     .headerImg{margin:6px 0 18px;}
     .headerImg img{max-height:78px; width:auto; display:block;}
@@ -48,58 +37,31 @@
     .card h2{margin:0 0 12px; font-size:16px;}
 
     .form{display:grid; gap:10px;}
-
-    .row{
-      display:grid;
-      grid-template-columns: 120px 300px;
-      gap:10px;
-      align-items:center;
-    }
-    @media (max-width: 520px){
-      .row{ grid-template-columns: 1fr; }
-    }
+    .row{ display:grid; grid-template-columns: 120px 300px; gap:10px; align-items:center; }
+    @media (max-width: 520px){ .row{ grid-template-columns: 1fr; } }
     label{font-weight:700; font-size:13px;}
     input{
-      width:300px;
-      max-width:100%;
-      box-sizing:border-box;
-      border:1px solid var(--border);
-      border-radius:10px;
-      padding:10px 12px;
-      font-size:14px;
-      background:#fff;
-      display:block;
-      justify-self:start;
+      width:300px; max-width:100%; box-sizing:border-box;
+      border:1px solid var(--border); border-radius:10px;
+      padding:10px 12px; font-size:14px; background:#fff; display:block; justify-self:start;
     }
     input[readonly]{background:#f3f4f6; color:#374151;}
 
     .actions{display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;}
-    button{
-      border:1px solid var(--border); background:#fff;
-      padding:10px 12px; border-radius:10px; cursor:pointer; font-weight:700;
-    }
+    button{ border:1px solid var(--border); background:#fff; padding:10px 12px; border-radius:10px; cursor:pointer; font-weight:700; }
     button.primary{background:#111827; color:#fff; border-color:#111827;}
 
     /* Teléfono con prefijo fijo */
     .phoneWrap{display:flex; gap:8px; align-items:center; width:300px; max-width:100%;}
     .phonePrefix{
-      border:1px solid var(--border);
-      border-radius:10px;
-      padding:10px 12px;
-      background:#f3f4f6;
-      color:#374151;
-      font-size:14px;
-      white-space:nowrap;
+      border:1px solid var(--border); border-radius:10px; padding:10px 12px;
+      background:#f3f4f6; color:#374151; font-size:14px; white-space:nowrap;
     }
     .phoneWrap input{flex:1; min-width:0; width:auto;}
 
     /* Firma (preview) */
     .sigWrap{border:1px dashed #cbd5e1; border-radius:14px; padding:14px; background:#fff;}
-    .firmaPreview{
-      width:100%;
-      display:flex; gap:14px; align-items:center;
-      background:#fff;
-    }
+    .firmaPreview{ width:100%; display:flex; gap:14px; align-items:center; background:#fff; }
     .sigLeft{flex:1; min-width:220px;}
     .sigName{font-size:22px; font-weight:800; margin:0 0 2px;}
     .sigRole{font-size:14px; margin:0 0 10px; color:#111827;}
@@ -109,21 +71,10 @@
     .sigRight{width:220px; display:flex; justify-content:flex-end; align-items:center;}
     .sigRight img{max-width:220px; height:auto; display:block;}
 
-    .captureHost{
-      position:fixed;
-      left:-10000px;
-      top:0;
-      background:#fff;
-      padding:0;
-      margin:0;
-      z-index:-1;
-    }
+    .captureHost{ position:fixed; left:-10000px; top:0; background:#fff; padding:0; margin:0; z-index:-1; }
 
-    /* === Modal requerido === */
-    .modal-backdrop{
-      position:fixed; inset:0; background:rgba(0,0,0,.5);
-      display:none; align-items:center; justify-content:center; z-index:9999;
-    }
+    /* === Modal === */
+    .modal-backdrop{ position:fixed; inset:0; background:rgba(0,0,0,.5); display:none; align-items:center; justify-content:center; z-index:9999; }
     .modal-backdrop.open{ display:flex; }
     .modal{
       background:#fff; border-radius:14px; padding:18px; width:calc(100% - 32px);
@@ -132,6 +83,27 @@
     .modal h3{ margin:0 0 8px; font-size:18px; }
     .modal p{ margin:0 0 14px; color:#374151; }
     .modal .actions{ display:flex; justify-content:flex-end; gap:8px; }
+
+    /* Título del modal en rojo encuadrado y subrayado */
+    #reqTitle{
+      display:inline-block; margin:0 0 10px; padding:8px 12px;
+      border:2px solid #b91c1c; border-radius:10px; color:#b91c1c; background:#fff5f5;
+      font-weight:800; text-decoration: underline; text-underline-offset: 4px;
+      letter-spacing:.2px; box-shadow:0 2px 6px rgba(185,28,28,.12);
+    }
+    #reqDesc b{ color:#b91c1c; }
+    .modal-backdrop.open .modal{ animation: modalPop .14s ease-out; }
+    @keyframes modalPop{ from{transform:scale(.97);opacity:.9;} to{transform:scale(1);opacity:1;} }
+
+    /* Errores en inputs */
+    .input-error{ border-color:#ef4444 !important; box-shadow:0 0 0 3px rgba(239,68,68,.15); }
+    .field-alert{ animation: fieldPulse .9s ease-out 1; }
+    @keyframes fieldPulse{
+      0%{ box-shadow:0 0 0 0 rgba(239,68,68,.35); transform:scale(1); }
+      30%{ box-shadow:0 0 0 6px rgba(239,68,68,.15); transform:scale(1.01); }
+      60%{ box-shadow:0 0 0 3px rgba(239,68,68,.20); transform:scale(1); }
+      100%{ box-shadow:0 0 0 0 rgba(239,68,68,0); transform:scale(1); }
+    }
   </style>
 </head>
 
@@ -159,11 +131,12 @@
             <input id="cargo" placeholder="Ej: Especialista de Soporte Técnico" maxlength="80" />
           </div>
 
-        <div class="row">
+          <div class="row">
             <label for="telefono_num">Teléfono</label>
             <div class="phoneWrap">
               <div class="phonePrefix">+(505)</div>
-              <input id="telefono_num" placeholder="Ej: 5764 9650" maxlength="25" inputmode="numeric" />
+              <!-- acepta números y '-', auto-formato dddd dddd o dddd-dddd -->
+              <input id="telefono_num" placeholder="Ej: 5764 9650" maxlength="9" inputmode="numeric" autocomplete="tel" />
             </div>
           </div>
 
@@ -201,26 +174,43 @@
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
 <script>
-  const LOGO_PNG_URL = "assets/logo-clf.png";
+  const LOGO_PNG_URL = "assets/header-cafe.png";
   const PHONE_PREFIX = "+(505)";
-
   const $ = (id) => document.getElementById(id);
+  const digitsOnly = s => (s||"").replace(/\D/g,"");
+
+  /* === Teléfono: permitir dígitos y '-', y formatear dddd dddd o dddd-dddd === */
+  (function enforcePhone(){
+    const input = $("telefono_num");
+    if(!input) return;
+
+    input.addEventListener("keydown", (e)=>{
+      const allowed = ["Backspace","Delete","Tab","Escape","Enter","ArrowLeft","ArrowRight","Home","End"];
+      const isCtrlCmd = e.ctrlKey || e.metaKey;
+      if (allowed.includes(e.key) || isCtrlCmd) return;
+      if (!/^[0-9-]$/.test(e.key)) e.preventDefault();  // ← dígitos o guion
+    });
+
+    input.addEventListener("input", ()=>{
+      const hadDash = input.value.includes("-");       // si el usuario usó '-'
+      let v = digitsOnly(input.value).slice(0,8);      // sólo dígitos
+      if(v.length > 4) v = v.slice(0,4) + (hadDash ? "-" : " ") + v.slice(4);
+      input.value = v;
+    });
+  })();
 
   function esc(s){
     return (s||"").replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
   }
 
-  function normalizePhone(num){
-    return (num || "").trim();
-  }
-
   function getData(){
-    const phoneNum = normalizePhone($("telefono_num").value);
+    const phoneFormatted = $("telefono_num").value.trim(); // "dddd dddd" o "dddd-dddd"
+    const phoneDigits = digitsOnly(phoneFormatted);        // "dddddddd"
     return {
       nombre: $("nombre").value.trim(),
       cargo: $("cargo").value.trim(),
-      telefonoNum: phoneNum,
-      telefono: phoneNum ? `${PHONE_PREFIX} ${phoneNum}` : "",
+      telefonoNum: phoneDigits,
+      telefono: phoneDigits ? `${PHONE_PREFIX} ${phoneFormatted}` : "",
       web: $("web").value.trim(),
       direccion: $("direccion").value.trim(),
     };
@@ -259,20 +249,34 @@
   // ====== Modal: abrir/cerrar ======
   function openReqModal(){
     const m = document.getElementById("reqModal");
+    if(!m){ alert("Completa los campos requeridos."); return; }
     m.classList.add("open");
-    setTimeout(()=> document.getElementById("reqClose").focus(), 0);
+    setTimeout(()=> document.getElementById("reqClose")?.focus(), 0);
   }
-  function closeReqModal(){
-    document.getElementById("reqModal").classList.remove("open");
-  }
+  function closeReqModal(){ document.getElementById("reqModal")?.classList.remove("open"); }
 
   // ====== Render de vista previa (con pop-up si faltan campos) ======
   function renderPreview(){
     const data = getData();
 
-    if(!data.nombre || !data.cargo || !data.telefonoNum || !data.direccion){
-      $("sigPreview").innerHTML = `<div style="color:#6b7280;font-size:13px;">Completa <b>Nombre, Cargo, Teléfono y Dirección</b> y presiona “Generar”.</div>`;
-      openReqModal(); // Pop-up
+    ["nombre","cargo","telefono_num","direccion"].forEach(id => $(id).classList.remove("input-error","field-alert"));
+
+    let firstMissing = null;
+    if(!data.nombre) firstMissing = firstMissing || "nombre";
+    if(!data.cargo) firstMissing = firstMissing || "cargo";
+    if(!data.telefonoNum || data.telefonoNum.length !== 8) firstMissing = firstMissing || "telefono_num";
+    if(!data.direccion) firstMissing = firstMissing || "direccion";
+
+    if(firstMissing){
+      const el = $(firstMissing);
+      el.classList.add("input-error","field-alert");
+      el.focus({preventScroll:false});
+      setTimeout(()=> el.classList.remove("field-alert"), 950);
+
+      $("sigPreview").innerHTML = `<div style="color:#6b7280;font-size:13px;">
+        Completa <b>Nombre, Cargo, Teléfono (8 dígitos) y Dirección</b> y presiona “Generar”.
+      </div>`;
+      openReqModal();
       return false;
     }
 
@@ -285,10 +289,7 @@
     $("btnGenerar").addEventListener("click", renderPreview);
 
     $("btnLimpiar").addEventListener("click", ()=>{
-      $("nombre").value = "";
-      $("cargo").value = "";
-      $("telefono_num").value = "";
-      $("direccion").value = "";
+      ["nombre","cargo","telefono_num","direccion"].forEach(id => $(id).value = "");
       renderPreview();
     });
 
@@ -333,9 +334,14 @@
     // Modal listeners
     document.getElementById("reqClose").addEventListener("click", closeReqModal);
     document.getElementById("reqModal").addEventListener("click", (e)=>{
-      if(e.target.id === "reqModal") closeReqModal(); // click fuera
+      if(e.target.id === "reqModal") closeReqModal();
     });
     document.addEventListener("keydown", (e)=>{ if(e.key === "Escape") closeReqModal(); });
+
+    // Mensaje inicial
+    $("sigPreview").innerHTML = `<div style="color:#6b7280;font-size:13px;">
+      Completa <b>Nombre, Cargo, Teléfono y Dirección</b> y presiona “Generar”.
+    </div>`;
   });
 </script>
   </div>
@@ -353,6 +359,7 @@
   </div>
 </body>
 </html>
+
 
 
 
