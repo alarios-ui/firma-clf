@@ -6,63 +6,119 @@
   <title>Firma Digital - Café Las Flores</title>
   <style>
     :root{
-  --modal-bg: rgba(22,19,17,0.72);   /* antes 0.88 -> más claro */
-  --modal-border:#b91c1c;
-  --modal-text:#f8fafc;
-  --modal-muted:#f1f5f9;             /* texto secundario un poco más claro */
-}
+      --border:#e5e7eb; --text:#111827; --muted:#6b7280; --bg:#ffffff; --soft:#f9fafb;
+      /* Paleta modal semi clara */
+      --modal-bg: rgba(40,34,31,0.62);  /* más claro que antes */
+      --modal-border:#b91c1c;
+      --modal-text:#f8fafc;
+      --modal-muted:#eef2f7;
+    }
 
-/* Overlay MÁS CLARO */
-.modal-backdrop{
-  position:fixed; inset:0;
-  background: rgba(0,0,0,.35);       /* antes .55 */
-  display:none; align-items:center; justify-content:center; z-index:9999;
-}
-.modal-backdrop.open{ display:flex; }
+    /* Fondo estático */
+    body{
+      font-family: Arial, Helvetica, sans-serif;
+      margin:0; color:#111827;
+      background-image: url("assets/bg-cafe.png");
+      background-size: cover; background-position: center;
+      background-repeat: no-repeat; background-attachment: fixed;
+    }
+    @media (max-width: 768px){ body{ background-attachment: scroll; } }
 
-/* Caja del modal más luminosa */
-.modal{
-  position:relative;
-  width:calc(100% - 32px); max-width:520px;
-  border-radius:16px; padding:20px 18px; color:var(--modal-text);
+    .page-overlay{ min-height:100vh; background: rgba(0,0,0,0.25); }
+    .wrap{max-width:980px; margin:0 auto; padding:18px 16px 28px;}
+    h1{
+      margin:0 0 10px; font-size:34px; font-weight:800; color:#ffffff;
+      text-shadow: 0 0 4px rgba(255,255,255,0.6), 0 0 10px rgba(255,255,255,0.35), 1px 1px 2px rgba(0,0,0,0.8);
+    }
+    .headerImg{margin:6px 0 18px;}
+    .headerImg img{max-height:78px; width:auto; display:block;}
 
-  /* fondo + blur (degradado más claro en el centro) */
-  background:
-    radial-gradient(120% 120% at 50% 0%, rgba(255,255,255,0.08), transparent 60%),
-    linear-gradient(180deg, rgba(40,34,31,0.80), var(--modal-bg)); /* antes 0.92/0.88 */
-  backdrop-filter: blur(6px) saturate(120%);
+    .grid{display:grid; grid-template-columns: 1fr 1fr; gap:18px; align-items:start;}
+    @media (max-width: 920px){ .grid{grid-template-columns:1fr;} }
 
-  border:2px solid var(--modal-border);
-  box-shadow: 0 10px 22px rgba(0,0,0,.25), 0 0 0 3px rgba(185,28,28,.08);
-}
+    .card{border:1px solid var(--border); border-radius:14px; padding:16px; background:var(--soft);}
+    .card h2{margin:0 0 12px; font-size:16px;}
 
-/* Franja decorativa igual pero con menos opacidad */
-.modal::before{
-  content:"";
-  position:absolute; left:14px; right:14px; top:10px; height:3px; border-radius:3px;
-  background: linear-gradient(90deg,#b91c1c, #f97316 60%, #b91c1c);
-  opacity:.65; /* antes .85 */
-}
+    .form{display:grid; gap:10px;}
+    .row{ display:grid; grid-template-columns: 120px 300px; gap:10px; align-items:center; }
+    @media (max-width: 520px){ .row{ grid-template-columns: 1fr; } }
+    label{font-weight:700; font-size:13px;}
+    input{
+      width:300px; max-width:100%; box-sizing:border-box;
+      border:1px solid var(--border); border-radius:10px;
+      padding:10px 12px; font-size:14px; background:#fff; display:block; justify-self:start;
+    }
+    input[readonly]{background:#f3f4f6; color:#374151;}
 
-/* Texto del párrafo un poco más claro para contraste */
-.modal p{ margin:0 0 14px; color:var(--modal-muted); }
+    .actions{display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;}
+    button{ border:1px solid var(--border); background:#fff; padding:10px 12px; border-radius:10px; cursor:pointer; font-weight:700; }
+    button.primary{background:#111827; color:#fff; border-color:#111827;}
 
-/* Botón degradado: sin cambios funcionales */
-.modal .actions .primary{
-  border:0;
-  background: linear-gradient(135deg, #0f172a, #111827 35%, #1f2937 100%);
-  color:#fff; padding:10px 14px; border-radius:12px; font-weight:800;
-  box-shadow: 0 4px 12px rgba(0,0,0,.25);
-}
-.modal .actions .primary:hover{ filter:brightness(1.07); }
-.modal .actions .primary:active{ transform: translateY(1px); }
+    /* Teléfono con prefijo fijo */
+    .phoneWrap{display:flex; gap:8px; align-items:center; width:300px; max-width:100%;}
+    .phonePrefix{ border:1px solid var(--border); border-radius:10px; padding:10px 12px; background:#f3f4f6; color:#374151; font-size:14px; white-space:nowrap; }
+    .phoneWrap input{flex:1; min-width:0; width:auto;}
 
-    /* Título del modal en rojo encuadrado y subrayado */
+    /* Firma (preview) */
+    .sigWrap{border:1px dashed #cbd5e1; border-radius:14px; padding:14px; background:#fff;}
+    .firmaPreview{ width:100%; display:flex; gap:14px; align-items:center; background:#fff; }
+    .sigLeft{flex:1; min-width:220px;}
+    .sigName{font-size:22px; font-weight:800; margin:0 0 2px;}
+    .sigRole{font-size:14px; margin:0 0 10px; color:#111827;}
+    .sigPhone{font-size:14px; font-weight:800; margin:0 0 2px;}
+    .sigWeb a{color:#0b57d0; font-weight:800; text-decoration:none;}
+    .sigAddr{font-size:13px; color:#374151; margin-top:10px; line-height:1.35;}
+    .sigRight{width:220px; display:flex; justify-content:flex-end; align-items:center;}
+    .sigRight img{max-width:220px; height:auto; display:block;}
+
+    .captureHost{ position:fixed; left:-10000px; top:0; background:#fff; padding:0; margin:0; z-index:-1; }
+
+    /* ========= Modal semi claro ========= */
+    .modal-backdrop{
+      position:fixed; inset:0; background:rgba(0,0,0,.28); /* más claro */
+      display:none; align-items:center; justify-content:center; z-index:9999;
+    }
+    .modal-backdrop.open{ display:flex; }
+
+    .modal{
+      position:relative;
+      width:calc(100% - 32px); max-width:520px;
+      border-radius:16px; padding:20px 18px; color:var(--modal-text);
+
+      /* capas claras + glass */
+      background:
+        radial-gradient(120% 120% at 50% -10%, rgba(255,255,255,0.16), transparent 60%),
+        linear-gradient(180deg, rgba(70,62,58,0.72), var(--modal-bg));
+      backdrop-filter: blur(5px) saturate(120%);
+
+      /* borde y halo sutil */
+      border:2px solid var(--modal-border);
+      box-shadow: 0 8px 20px rgba(0,0,0,.22), 0 0 0 3px rgba(185,28,28,.07);
+    }
+    .modal::before{
+      content:""; position:absolute; left:14px; right:14px; top:10px; height:3px; border-radius:3px;
+      background: linear-gradient(90deg,#b91c1c, #f97316 60%, #b91c1c);
+      opacity:.55; /* más sutil */
+    }
+    .modal h3{ margin:8px 0 12px; font-size:18px; }
+    .modal p{ margin:0 0 14px; color:var(--modal-muted); }
+
+    /* Botón con degradado */
+    .modal .actions .primary{
+      border:0;
+      background: linear-gradient(135deg, #0f172a, #111827 35%, #1f2937 100%);
+      color:#fff; padding:10px 14px; border-radius:12px; font-weight:800;
+      box-shadow: 0 4px 10px rgba(0,0,0,.22);
+    }
+    .modal .actions .primary:hover{ filter:brightness(1.07); }
+    .modal .actions .primary:active{ transform: translateY(1px); }
+
+    /* Título del modal rojo encuadrado y subrayado */
     #reqTitle{
       display:inline-block; margin:0 0 10px; padding:8px 12px;
       border:2px solid var(--modal-border); border-radius:10px; color:#b91c1c; background:#fff5f5;
       font-weight:800; text-decoration: underline; text-underline-offset: 4px; letter-spacing:.2px;
-      box-shadow:0 2px 6px rgba(185,28,28,.12);
+      box-shadow:0 2px 6px rgba(185,28,28,.10);
     }
     #reqDesc b{ color:#b91c1c; }
 
@@ -166,7 +222,7 @@
     const $ = (id) => document.getElementById(id);
     const digitsOnly = s => (s||"").replace(/\D/g,"");
 
-    /* === Teléfono: permitir dígitos y '-', y formatear dddd dddd o dddd-dddd === */
+    /* Teléfono: dígitos y '-', formato dddd dddd o dddd-dddd */
     (function enforcePhone(){
       const input = $("telefono_num");
       if(!input) return;
@@ -175,7 +231,7 @@
         const allowed = ["Backspace","Delete","Tab","Escape","Enter","ArrowLeft","ArrowRight","Home","End"];
         const isCtrlCmd = e.ctrlKey || e.metaKey;
         if (allowed.includes(e.key) || isCtrlCmd) return;
-        if (!/^[0-9-]$/.test(e.key)) e.preventDefault();  // dígitos o guion
+        if (!/^[0-9-]$/.test(e.key)) e.preventDefault();
       });
 
       input.addEventListener("input", ()=>{
@@ -186,13 +242,11 @@
       });
     })();
 
-    function esc(s){
-      return (s||"").replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-    }
+    function esc(s){ return (s||"").replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
 
     function getData(){
-      const phoneFormatted = $("telefono_num").value.trim(); // "dddd dddd" o "dddd-dddd"
-      const phoneDigits = digitsOnly(phoneFormatted);        // "dddddddd"
+      const phoneFormatted = $("telefono_num").value.trim();
+      const phoneDigits = digitsOnly(phoneFormatted);
       return {
         nombre: $("nombre").value.trim(),
         cargo: $("cargo").value.trim(),
@@ -203,7 +257,6 @@
       };
     }
 
-    // ==== Firma “ajustada” para captura (sin márgenes) ====
     function buildFirmaHTML(data, fixedWidth){
       const isCapture = !!fixedWidth;
       const baseStyle = isCapture
@@ -229,7 +282,6 @@
       `.trim();
     }
 
-    /* --- Modal --- */
     function openReqModal(){
       const m = $("reqModal");
       if(!m){ alert("Completa los campos requeridos."); return; }
@@ -244,7 +296,6 @@
       document.addEventListener("keydown", (e)=>{ if(e.key === "Escape") closeReqModal(); });
     })();
 
-    /* Render vista previa + validación */
     function renderPreview(){
       const data = getData();
       ["nombre","cargo","telefono_num","direccion"].forEach(id => $(id).classList.remove("input-error","field-alert"));
@@ -269,30 +320,24 @@
       return true;
     }
 
-    /* Listeners */
     document.addEventListener("DOMContentLoaded", ()=>{
       $("btnGenerar").addEventListener("click", renderPreview);
-
       $("btnLimpiar").addEventListener("click", ()=>{
         ["nombre","cargo","telefono_num","direccion"].forEach(id => $(id).value = "");
         renderPreview();
       });
-
       $("btnGmail").addEventListener("click", ()=>{
         window.open("https://docs.google.com/document/d/1rwJR7VNI9PRI4qNyL5AO1308kTgkb6Y-ntX6AZaaSGc/edit?usp=sharing", "_blank", "noopener,noreferrer");
       });
-
       $("btnDescargarPng").addEventListener("click", async ()=>{
         const ok = renderPreview();
         if(!ok) return;
         if (typeof html2canvas === "undefined") { alert("No se pudo cargar html2canvas."); return; }
-
         const data = getData();
         const host = document.createElement("div");
         host.className = "captureHost";
         host.innerHTML = buildFirmaHTML(data, true);
         document.body.appendChild(host);
-
         try{
           const node = host.firstElementChild;
           const canvas = await html2canvas(node, {
