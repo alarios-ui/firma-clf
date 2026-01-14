@@ -5,21 +5,23 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Firma Digital - Café Las Flores</title>
   <style>
-    :root{ --border:#e5e7eb; --text:#111827; --muted:#6b7280; --bg:#ffffff; --soft:#f9fafb; }
-    
+    :root{
+      --border:#e5e7eb; --text:#111827; --muted:#6b7280; --bg:#ffffff; --soft:#f9fafb;
+      --modal-bg: rgba(22,19,17,.88);        /* café oscuro translúcido */
+      --modal-border:#b91c1c;                /* rojo acento */
+      --modal-text:#f8fafc;                  /* casi blanco */
+      --modal-muted:#e5e7eb;                 /* gris claro */
+    }
+
+    /* Fondo estático */
     body{
       font-family: Arial, Helvetica, sans-serif;
-      margin:0;
-      color:#111827;
+      margin:0; color:#111827;
       background-image: url("assets/bg-cafe.png");
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-attachment: fixed;
+      background-size: cover; background-position: center;
+      background-repeat: no-repeat; background-attachment: fixed;
     }
-    @media (max-width: 768px){
-      body{ background-attachment: scroll; }
-    }
+    @media (max-width: 768px){ body{ background-attachment: scroll; } }
 
     .page-overlay{ min-height:100vh; background: rgba(0,0,0,0.25); }
     .wrap{max-width:980px; margin:0 auto; padding:18px 16px 28px;}
@@ -53,10 +55,7 @@
 
     /* Teléfono con prefijo fijo */
     .phoneWrap{display:flex; gap:8px; align-items:center; width:300px; max-width:100%;}
-    .phonePrefix{
-      border:1px solid var(--border); border-radius:10px; padding:10px 12px;
-      background:#f3f4f6; color:#374151; font-size:14px; white-space:nowrap;
-    }
+    .phonePrefix{ border:1px solid var(--border); border-radius:10px; padding:10px 12px; background:#f3f4f6; color:#374151; font-size:14px; white-space:nowrap; }
     .phoneWrap input{flex:1; min-width:0; width:auto;}
 
     /* Firma (preview) */
@@ -73,26 +72,49 @@
 
     .captureHost{ position:fixed; left:-10000px; top:0; background:#fff; padding:0; margin:0; z-index:-1; }
 
-    /* === Modal === */
-    .modal-backdrop{ position:fixed; inset:0; background:rgba(0,0,0,.5); display:none; align-items:center; justify-content:center; z-index:9999; }
-    .modal-backdrop.open{ display:flex; }
-    .modal{
-      background:#fff; border-radius:14px; padding:18px; width:calc(100% - 32px);
-      max-width:420px; box-shadow:0 10px 25px rgba(0,0,0,.2); border:1px solid var(--border);
+    /* ===== Modal estilo café ===== */
+    .modal-backdrop{
+      position:fixed; inset:0; background:rgba(0,0,0,.55);
+      display:none; align-items:center; justify-content:center; z-index:9999;
     }
-    .modal h3{ margin:0 0 8px; font-size:18px; }
-    .modal p{ margin:0 0 14px; color:#374151; }
-    .modal .actions{ display:flex; justify-content:flex-end; gap:8px; }
+    .modal-backdrop.open{ display:flex; }
+
+    .modal{
+      position:relative;
+      width:calc(100% - 32px); max-width:520px;
+      border-radius:16px; padding:20px 18px; color:var(--modal-text);
+      background: linear-gradient(180deg, rgba(32,27,24,0.92), var(--modal-bg));
+      backdrop-filter: blur(6px) saturate(120%);
+      border:2px solid var(--modal-border);
+      box-shadow: 0 12px 28px rgba(0,0,0,.35), 0 0 0 4px rgba(185,28,28,.10);
+    }
+    .modal::before{
+      content:""; position:absolute; left:14px; right:14px; top:10px; height:3px;
+      border-radius:3px; background: linear-gradient(90deg,#b91c1c, #f97316 60%, #b91c1c); opacity:.85;
+    }
+    .modal h3{ margin:8px 0 12px; font-size:18px; }
+    .modal p{ margin:0 0 14px; color:var(--modal-muted); }
+
+    /* Botón con degradado */
+    .modal .actions .primary{
+      border:0;
+      background: linear-gradient(135deg, #0f172a, #111827 35%, #1f2937 100%);
+      color:#fff; padding:10px 14px; border-radius:12px; font-weight:800;
+      box-shadow: 0 4px 12px rgba(0,0,0,.35);
+    }
+    .modal .actions .primary:hover{ filter:brightness(1.07); }
+    .modal .actions .primary:active{ transform: translateY(1px); }
 
     /* Título del modal en rojo encuadrado y subrayado */
     #reqTitle{
       display:inline-block; margin:0 0 10px; padding:8px 12px;
-      border:2px solid #b91c1c; border-radius:10px; color:#b91c1c; background:#fff5f5;
-      font-weight:800; text-decoration: underline; text-underline-offset: 4px;
-      letter-spacing:.2px; box-shadow:0 2px 6px rgba(185,28,28,.12);
+      border:2px solid var(--modal-border); border-radius:10px; color:#b91c1c; background:#fff5f5;
+      font-weight:800; text-decoration: underline; text-underline-offset: 4px; letter-spacing:.2px;
+      box-shadow:0 2px 6px rgba(185,28,28,.12);
     }
     #reqDesc b{ color:#b91c1c; }
-    .modal-backdrop.open .modal{ animation: modalPop .14s ease-out; }
+
+    .modal-backdrop.open .modal{ animation: modalPop .16s ease-out; }
     @keyframes modalPop{ from{transform:scale(.97);opacity:.9;} to{transform:scale(1);opacity:1;} }
 
     /* Errores en inputs */
@@ -109,241 +131,67 @@
 
 <body>
   <div class="page-overlay">
-  <div class="wrap">
-    <h1>Genera tu Firma Digital</h1>
+    <div class="wrap">
+      <h1>Genera tu Firma Digital</h1>
 
-    <div class="headerImg">
-      <img src="assets/header-cafe.png" alt="Café Las Flores">
-    </div>
+      <div class="headerImg">
+        <img src="assets/header-cafe.png" alt="Café Las Flores">
+      </div>
 
-    <div class="grid">
-      <div class="card">
-        <h2>Datos</h2>
+      <div class="grid">
+        <div class="card">
+          <h2>Datos</h2>
 
-        <div class="form" id="form">
-          <div class="row">
-            <label for="nombre">Nombre</label>
-            <input id="nombre" placeholder="Ej: Larry Larios" maxlength="60" />
-          </div>
+          <div class="form" id="form">
+            <div class="row">
+              <label for="nombre">Nombre</label>
+              <input id="nombre" placeholder="Ej: Larry Larios" maxlength="60" />
+            </div>
 
-          <div class="row">
-            <label for="cargo">Cargo</label>
-            <input id="cargo" placeholder="Ej: Especialista de Soporte Técnico" maxlength="80" />
-          </div>
+            <div class="row">
+              <label for="cargo">Cargo</label>
+              <input id="cargo" placeholder="Ej: Especialista de Soporte Técnico" maxlength="80" />
+            </div>
 
-          <div class="row">
-            <label for="telefono_num">Teléfono</label>
-            <div class="phoneWrap">
-              <div class="phonePrefix">+(505)</div>
-              <!-- acepta números y '-', auto-formato dddd dddd o dddd-dddd -->
-              <input id="telefono_num" placeholder="Ej: 5764 9650" maxlength="9" inputmode="numeric" autocomplete="tel" />
+            <div class="row">
+              <label for="telefono_num">Teléfono</label>
+              <div class="phoneWrap">
+                <div class="phonePrefix">+(505)</div>
+                <!-- acepta números y '-', auto-formato dddd dddd o dddd-dddd -->
+                <input id="telefono_num" placeholder="Ej: 5764 9650" maxlength="9" inputmode="numeric" autocomplete="tel" />
+              </div>
+            </div>
+
+            <div class="row">
+              <label for="web">Sitio Web</label>
+              <input id="web" value="https://cafelasflores.com/" readonly />
+            </div>
+
+            <div class="row">
+              <label for="direccion">Dirección</label>
+              <input id="direccion" placeholder="Ej: Km. 13.1 Carretera Masaya ... Managua" maxlength="140" />
+            </div>
+
+            <div class="actions">
+              <button class="primary" id="btnGenerar" type="button" aria-label="Generar vista previa">Generar</button>
+              <button id="btnLimpiar" type="button">Limpiar</button>
             </div>
           </div>
+        </div>
 
-          <div class="row">
-            <label for="web">Sitio Web</label>
-            <input id="web" value="https://cafelasflores.com/" readonly />
-          </div>
-
-          <div class="row">
-            <label for="direccion">Dirección</label>
-            <input id="direccion" placeholder="Ej: Km. 13.1 Carretera Masaya ... Managua" maxlength="140" />
+        <div class="card">
+          <h2>Vista previa</h2>
+          <div class="sigWrap">
+            <div id="sigPreview"></div>
           </div>
 
           <div class="actions">
-            <button class="primary" id="btnGenerar" type="button" aria-label="Generar vista previa">Generar</button>
-            <button id="btnLimpiar" type="button">Limpiar</button>
+            <button class="primary" id="btnDescargarPng" type="button">Descargar firma</button>
+            <button id="btnGmail" type="button">Configura tu firma</button>
           </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <h2>Vista previa</h2>
-        <div class="sigWrap">
-          <div id="sigPreview"></div>
-        </div>
-
-        <div class="actions">
-          <button class="primary" id="btnDescargarPng" type="button">Descargar firma</button>
-          <button id="btnGmail" type="button">Configura tu firma</button>
         </div>
       </div>
     </div>
-  </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-
-<script>
-  const LOGO_PNG_URL = "assets/header-cafe.png";
-  const PHONE_PREFIX = "+(505)";
-  const $ = (id) => document.getElementById(id);
-  const digitsOnly = s => (s||"").replace(/\D/g,"");
-
-  /* === Teléfono: permitir dígitos y '-', y formatear dddd dddd o dddd-dddd === */
-  (function enforcePhone(){
-    const input = $("telefono_num");
-    if(!input) return;
-
-    input.addEventListener("keydown", (e)=>{
-      const allowed = ["Backspace","Delete","Tab","Escape","Enter","ArrowLeft","ArrowRight","Home","End"];
-      const isCtrlCmd = e.ctrlKey || e.metaKey;
-      if (allowed.includes(e.key) || isCtrlCmd) return;
-      if (!/^[0-9-]$/.test(e.key)) e.preventDefault();  // ← dígitos o guion
-    });
-
-    input.addEventListener("input", ()=>{
-      const hadDash = input.value.includes("-");       // si el usuario usó '-'
-      let v = digitsOnly(input.value).slice(0,8);      // sólo dígitos
-      if(v.length > 4) v = v.slice(0,4) + (hadDash ? "-" : " ") + v.slice(4);
-      input.value = v;
-    });
-  })();
-
-  function esc(s){
-    return (s||"").replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-  }
-
-  function getData(){
-    const phoneFormatted = $("telefono_num").value.trim(); // "dddd dddd" o "dddd-dddd"
-    const phoneDigits = digitsOnly(phoneFormatted);        // "dddddddd"
-    return {
-      nombre: $("nombre").value.trim(),
-      cargo: $("cargo").value.trim(),
-      telefonoNum: phoneDigits,
-      telefono: phoneDigits ? `${PHONE_PREFIX} ${phoneFormatted}` : "",
-      web: $("web").value.trim(),
-      direccion: $("direccion").value.trim(),
-    };
-  }
-
-  // ==== Firma “ajustada” en modo captura, sin márgenes extra ====
-  function buildFirmaHTML(data, fixedWidth){
-    const isCapture = !!fixedWidth;
-
-    const baseStyle = isCapture
-      ? "display:inline-flex;gap:14px;align-items:center;background:#fff;padding:12px 14px;border:1px solid #e5e7eb;border-radius:12px;"
-      : "width:100%;display:flex;gap:14px;align-items:center;background:#fff;";
-
-    const leftStyle = isCapture
-      ? "flex:0 1 auto;min-width:220px;max-width:520px;"
-      : "flex:1;min-width:220px;";
-
-    return `
-      <div class="${isCapture ? "" : "firmaPreview"}" style="${baseStyle}">
-        <div class="sigLeft" style="${leftStyle}">
-          <div class="sigName" style="font-size:22px;font-weight:800;margin:0 0 2px;">${esc(data.nombre)}</div>
-          <div class="sigRole" style="font-size:14px;margin:0 0 10px;color:#111827;">${esc(data.cargo)}</div>
-          <div class="sigPhone" style="font-size:14px;font-weight:800;margin:0 0 2px;">${esc(data.telefono)}</div>
-          <div class="sigWeb">
-            <a href="${esc(data.web)}" style="color:#0b57d0;font-weight:800;text-decoration:none;">${esc(data.web)}</a>
-          </div>
-          <div class="sigAddr" style="font-size:13px;color:#374151;margin-top:10px;line-height:1.35;">${esc(data.direccion)}</div>
-        </div>
-        <div class="sigRight" style="width:220px;display:flex;justify-content:flex-end;align-items:center;">
-          <img src="${esc(LOGO_PNG_URL)}" alt="Café Las Flores" style="max-width:220px;height:auto;display:block;" />
-        </div>
-      </div>
-    `.trim();
-  }
-
-  // ====== Modal: abrir/cerrar ======
-  function openReqModal(){
-    const m = document.getElementById("reqModal");
-    if(!m){ alert("Completa los campos requeridos."); return; }
-    m.classList.add("open");
-    setTimeout(()=> document.getElementById("reqClose")?.focus(), 0);
-  }
-  function closeReqModal(){ document.getElementById("reqModal")?.classList.remove("open"); }
-
-  // ====== Render de vista previa (con pop-up si faltan campos) ======
-  function renderPreview(){
-    const data = getData();
-
-    ["nombre","cargo","telefono_num","direccion"].forEach(id => $(id).classList.remove("input-error","field-alert"));
-
-    let firstMissing = null;
-    if(!data.nombre) firstMissing = firstMissing || "nombre";
-    if(!data.cargo) firstMissing = firstMissing || "cargo";
-    if(!data.telefonoNum || data.telefonoNum.length !== 8) firstMissing = firstMissing || "telefono_num";
-    if(!data.direccion) firstMissing = firstMissing || "direccion";
-
-    if(firstMissing){
-      const el = $(firstMissing);
-      el.classList.add("input-error","field-alert");
-      el.focus({preventScroll:false});
-      setTimeout(()=> el.classList.remove("field-alert"), 950);
-
-      $("sigPreview").innerHTML = `<div style="color:#6b7280;font-size:13px;">
-        Completa <b>Nombre, Cargo, Teléfono (8 dígitos) y Dirección</b> y presiona “Generar”.
-      </div>`;
-      openReqModal();
-      return false;
-    }
-
-    $("sigPreview").innerHTML = buildFirmaHTML(data, false);
-    return true;
-  }
-
-  // ====== Listeners ======
-  document.addEventListener("DOMContentLoaded", ()=>{
-    $("btnGenerar").addEventListener("click", renderPreview);
-
-    $("btnLimpiar").addEventListener("click", ()=>{
-      ["nombre","cargo","telefono_num","direccion"].forEach(id => $(id).value = "");
-      renderPreview();
-    });
-
-    $("btnGmail").addEventListener("click", ()=>{
-      window.open("https://docs.google.com/document/d/1rwJR7VNI9PRI4qNyL5AO1308kTgkb6Y-ntX6AZaaSGc/edit?usp=sharing", "_blank", "noopener,noreferrer");
-    });
-
-    $("btnDescargarPng").addEventListener("click", async ()=>{
-      const ok = renderPreview();
-      if(!ok) return;
-
-      if (typeof html2canvas === "undefined") {
-        alert("No se pudo cargar html2canvas. Revisa conexión o usa una versión local.");
-        return;
-      }
-
-      const data = getData();
-
-      const host = document.createElement("div");
-      host.className = "captureHost";
-      host.innerHTML = buildFirmaHTML(data, true);
-      document.body.appendChild(host);
-
-      try{
-        const node = host.firstElementChild;
-        const canvas = await html2canvas(node, {
-          backgroundColor: "#ffffff",
-          scale: 2,
-          useCORS: true,
-          windowWidth: node.scrollWidth,
-          windowHeight: node.scrollHeight
-        });
-        const a = document.createElement("a");
-        a.href = canvas.toDataURL("image/png");
-        a.download = "firma-cafe-las-flores.png";
-        a.click();
-      } finally {
-        host.remove();
-      }
-    });
-
-    // Modal listeners
-    document.getElementById("reqClose").addEventListener("click", closeReqModal);
-    document.getElementById("reqModal").addEventListener("click", (e)=>{
-      if(e.target.id === "reqModal") closeReqModal();
-    });
-    document.addEventListener("keydown", (e)=>{ if(e.key === "Escape") closeReqModal(); });
-
-    // Mensaje inicial
-    $("sigPreview").innerHTML = `<div style="color:#6b7280;font-size:13px;">
-      Completa <b>Nombre, Cargo, Teléfono y Dirección</b> y presiona “Generar”.
-    </div>`;
-  });
-</script>
   </div>
 
   <!-- Modal: campos incompletos -->
@@ -357,8 +205,164 @@
       </div>
     </div>
   </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+  <script>
+    const LOGO_PNG_URL = "assets/header-cafe.png";
+    const PHONE_PREFIX = "+(505)";
+    const $ = (id) => document.getElementById(id);
+    const digitsOnly = s => (s||"").replace(/\D/g,"");
+
+    /* === Teléfono: permitir dígitos y '-', y formatear dddd dddd o dddd-dddd === */
+    (function enforcePhone(){
+      const input = $("telefono_num");
+      if(!input) return;
+
+      input.addEventListener("keydown", (e)=>{
+        const allowed = ["Backspace","Delete","Tab","Escape","Enter","ArrowLeft","ArrowRight","Home","End"];
+        const isCtrlCmd = e.ctrlKey || e.metaKey;
+        if (allowed.includes(e.key) || isCtrlCmd) return;
+        if (!/^[0-9-]$/.test(e.key)) e.preventDefault();  // dígitos o guion
+      });
+
+      input.addEventListener("input", ()=>{
+        const hadDash = input.value.includes("-");
+        let v = digitsOnly(input.value).slice(0,8);
+        if(v.length > 4) v = v.slice(0,4) + (hadDash ? "-" : " ") + v.slice(4);
+        input.value = v;
+      });
+    })();
+
+    function esc(s){
+      return (s||"").replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+    }
+
+    function getData(){
+      const phoneFormatted = $("telefono_num").value.trim(); // "dddd dddd" o "dddd-dddd"
+      const phoneDigits = digitsOnly(phoneFormatted);        // "dddddddd"
+      return {
+        nombre: $("nombre").value.trim(),
+        cargo: $("cargo").value.trim(),
+        telefonoNum: phoneDigits,
+        telefono: phoneDigits ? `${PHONE_PREFIX} ${phoneFormatted}` : "",
+        web: $("web").value.trim(),
+        direccion: $("direccion").value.trim(),
+      };
+    }
+
+    // ==== Firma “ajustada” para captura (sin márgenes) ====
+    function buildFirmaHTML(data, fixedWidth){
+      const isCapture = !!fixedWidth;
+      const baseStyle = isCapture
+        ? "display:inline-flex;gap:14px;align-items:center;background:#fff;padding:12px 14px;border:1px solid #e5e7eb;border-radius:12px;"
+        : "width:100%;display:flex;gap:14px;align-items:center;background:#fff;";
+      const leftStyle = isCapture
+        ? "flex:0 1 auto;min-width:220px;max-width:520px;"
+        : "flex:1;min-width:220px;";
+
+      return `
+        <div class="${isCapture ? "" : "firmaPreview"}" style="${baseStyle}">
+          <div class="sigLeft" style="${leftStyle}">
+            <div class="sigName" style="font-size:22px;font-weight:800;margin:0 0 2px;">${esc(data.nombre)}</div>
+            <div class="sigRole" style="font-size:14px;margin:0 0 10px;color:#111827;">${esc(data.cargo)}</div>
+            <div class="sigPhone" style="font-size:14px;font-weight:800;margin:0 0 2px;">${esc(data.telefono)}</div>
+            <div class="sigWeb"><a href="${esc(data.web)}" style="color:#0b57d0;font-weight:800;text-decoration:none;">${esc(data.web)}</a></div>
+            <div class="sigAddr" style="font-size:13px;color:#374151;margin-top:10px;line-height:1.35;">${esc(data.direccion)}</div>
+          </div>
+          <div class="sigRight" style="width:220px;display:flex;justify-content:flex-end;align-items:center;">
+            <img src="${esc(LOGO_PNG_URL)}" alt="Café Las Flores" style="max-width:220px;height:auto;display:block;" />
+          </div>
+        </div>
+      `.trim();
+    }
+
+    /* --- Modal --- */
+    function openReqModal(){
+      const m = $("reqModal");
+      if(!m){ alert("Completa los campos requeridos."); return; }
+      m.classList.add("open");
+      setTimeout(()=> $("reqClose")?.focus(), 0);
+    }
+    function closeReqModal(){ $("reqModal")?.classList.remove("open"); }
+    (function(){
+      const m = $("reqModal"), btn = $("reqClose");
+      if(btn) btn.addEventListener("click", closeReqModal);
+      if(m) m.addEventListener("click", (e)=>{ if(e.target.id === "reqModal") closeReqModal(); });
+      document.addEventListener("keydown", (e)=>{ if(e.key === "Escape") closeReqModal(); });
+    })();
+
+    /* Render vista previa + validación */
+    function renderPreview(){
+      const data = getData();
+      ["nombre","cargo","telefono_num","direccion"].forEach(id => $(id).classList.remove("input-error","field-alert"));
+      let firstMissing = null;
+      if(!data.nombre) firstMissing = firstMissing || "nombre";
+      if(!data.cargo) firstMissing = firstMissing || "cargo";
+      if(!data.telefonoNum || data.telefonoNum.length !== 8) firstMissing = firstMissing || "telefono_num";
+      if(!data.direccion) firstMissing = firstMissing || "direccion";
+
+      if(firstMissing){
+        const el = $(firstMissing);
+        el.classList.add("input-error","field-alert");
+        el.focus({preventScroll:false});
+        setTimeout(()=> el.classList.remove("field-alert"), 950);
+        $("sigPreview").innerHTML = `<div style="color:#6b7280;font-size:13px;">
+          Completa <b>Nombre, Cargo, Teléfono (8 dígitos) y Dirección</b> y presiona “Generar”.
+        </div>`;
+        openReqModal();
+        return false;
+      }
+      $("sigPreview").innerHTML = buildFirmaHTML(data, false);
+      return true;
+    }
+
+    /* Listeners */
+    document.addEventListener("DOMContentLoaded", ()=>{
+      $("btnGenerar").addEventListener("click", renderPreview);
+
+      $("btnLimpiar").addEventListener("click", ()=>{
+        ["nombre","cargo","telefono_num","direccion"].forEach(id => $(id).value = "");
+        renderPreview();
+      });
+
+      $("btnGmail").addEventListener("click", ()=>{
+        window.open("https://docs.google.com/document/d/1rwJR7VNI9PRI4qNyL5AO1308kTgkb6Y-ntX6AZaaSGc/edit?usp=sharing", "_blank", "noopener,noreferrer");
+      });
+
+      $("btnDescargarPng").addEventListener("click", async ()=>{
+        const ok = renderPreview();
+        if(!ok) return;
+        if (typeof html2canvas === "undefined") { alert("No se pudo cargar html2canvas."); return; }
+
+        const data = getData();
+        const host = document.createElement("div");
+        host.className = "captureHost";
+        host.innerHTML = buildFirmaHTML(data, true);
+        document.body.appendChild(host);
+
+        try{
+          const node = host.firstElementChild;
+          const canvas = await html2canvas(node, {
+            backgroundColor: "#ffffff", scale: 2, useCORS: true,
+            windowWidth: node.scrollWidth, windowHeight: node.scrollHeight
+          });
+          const a = document.createElement("a");
+          a.href = canvas.toDataURL("image/png");
+          a.download = "firma-cafe-las-flores.png";
+          a.click();
+        } finally { host.remove(); }
+      });
+
+      // Mensaje inicial
+      $("sigPreview").innerHTML = `<div style="color:#6b7280;font-size:13px;">
+        Completa <b>Nombre, Cargo, Teléfono y Dirección</b> y presiona “Generar”.
+      </div>`;
+    });
+  </script>
 </body>
 </html>
+
 
 
 
