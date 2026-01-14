@@ -118,6 +118,20 @@
       margin:0;
       z-index:-1;
     }
+
+    /* === Modal requerido === */
+    .modal-backdrop{
+      position:fixed; inset:0; background:rgba(0,0,0,.5);
+      display:none; align-items:center; justify-content:center; z-index:9999;
+    }
+    .modal-backdrop.open{ display:flex; }
+    .modal{
+      background:#fff; border-radius:14px; padding:18px; width:calc(100% - 32px);
+      max-width:420px; box-shadow:0 10px 25px rgba(0,0,0,.2); border:1px solid var(--border);
+    }
+    .modal h3{ margin:0 0 8px; font-size:18px; }
+    .modal p{ margin:0 0 14px; color:#374151; }
+    .modal .actions{ display:flex; justify-content:flex-end; gap:8px; }
   </style>
 </head>
 
@@ -145,7 +159,7 @@
             <input id="cargo" placeholder="Ej: Especialista de Soporte Técnico" maxlength="80" />
           </div>
 
-          <div class="row">
+        <div class="row">
             <label for="telefono_num">Teléfono</label>
             <div class="phoneWrap">
               <div class="phonePrefix">+(505)</div>
@@ -212,7 +226,7 @@
     };
   }
 
-  // ==== NUEVO: firma “ajustada” en modo captura, sin márgenes extra ====
+  // ==== Firma “ajustada” en modo captura, sin márgenes extra ====
   function buildFirmaHTML(data, fixedWidth){
     const isCapture = !!fixedWidth;
 
@@ -242,11 +256,23 @@
     `.trim();
   }
 
+  // ====== Modal: abrir/cerrar ======
+  function openReqModal(){
+    const m = document.getElementById("reqModal");
+    m.classList.add("open");
+    setTimeout(()=> document.getElementById("reqClose").focus(), 0);
+  }
+  function closeReqModal(){
+    document.getElementById("reqModal").classList.remove("open");
+  }
+
+  // ====== Render de vista previa (con pop-up si faltan campos) ======
   function renderPreview(){
     const data = getData();
 
     if(!data.nombre || !data.cargo || !data.telefonoNum || !data.direccion){
       $("sigPreview").innerHTML = `<div style="color:#6b7280;font-size:13px;">Completa <b>Nombre, Cargo, Teléfono y Dirección</b> y presiona “Generar”.</div>`;
+      openReqModal(); // Pop-up
       return false;
     }
 
@@ -254,57 +280,78 @@
     return true;
   }
 
-  $("btnGenerar").addEventListener("click", renderPreview);
+  // ====== Listeners ======
+  document.addEventListener("DOMContentLoaded", ()=>{
+    $("btnGenerar").addEventListener("click", renderPreview);
 
-  $("btnLimpiar").addEventListener("click", ()=>{
-    $("nombre").value = "";
-    $("cargo").value = "";
-    $("telefono_num").value = "";
-    $("direccion").value = "";
-    renderPreview();
+    $("btnLimpiar").addEventListener("click", ()=>{
+      $("nombre").value = "";
+      $("cargo").value = "";
+      $("telefono_num").value = "";
+      $("direccion").value = "";
+      renderPreview();
+    });
+
+    $("btnGmail").addEventListener("click", ()=>{
+      window.open("https://docs.google.com/document/d/1rwJR7VNI9PRI4qNyL5AO1308kTgkb6Y-ntX6AZaaSGc/edit?usp=sharing", "_blank", "noopener,noreferrer");
+    });
+
+    $("btnDescargarPng").addEventListener("click", async ()=>{
+      const ok = renderPreview();
+      if(!ok) return;
+
+      if (typeof html2canvas === "undefined") {
+        alert("No se pudo cargar html2canvas. Revisa conexión o usa una versión local.");
+        return;
+      }
+
+      const data = getData();
+
+      const host = document.createElement("div");
+      host.className = "captureHost";
+      host.innerHTML = buildFirmaHTML(data, true);
+      document.body.appendChild(host);
+
+      try{
+        const node = host.firstElementChild;
+        const canvas = await html2canvas(node, {
+          backgroundColor: "#ffffff",
+          scale: 2,
+          useCORS: true,
+          windowWidth: node.scrollWidth,
+          windowHeight: node.scrollHeight
+        });
+        const a = document.createElement("a");
+        a.href = canvas.toDataURL("image/png");
+        a.download = "firma-cafe-las-flores.png";
+        a.click();
+      } finally {
+        host.remove();
+      }
+    });
+
+    // Modal listeners
+    document.getElementById("reqClose").addEventListener("click", closeReqModal);
+    document.getElementById("reqModal").addEventListener("click", (e)=>{
+      if(e.target.id === "reqModal") closeReqModal(); // click fuera
+    });
+    document.addEventListener("keydown", (e)=>{ if(e.key === "Escape") closeReqModal(); });
   });
-
-  $("btnGmail").addEventListener("click", ()=>{
-    window.open("https://docs.google.com/document/d/1rwJR7VNI9PRI4qNyL5AO1308kTgkb6Y-ntX6AZaaSGc/edit?usp=sharing", "_blank", "noopener,noreferrer");
-  });
-
-  $("btnDescargarPng").addEventListener("click", async ()=>{
-    const ok = renderPreview();
-    if(!ok) return;
-
-    if (typeof html2canvas === "undefined") {
-      alert("No se pudo cargar html2canvas. Revisa conexión o usa una versión local.");
-      return;
-    }
-
-    const data = getData();
-
-    const host = document.createElement("div");
-    host.className = "captureHost";
-    host.innerHTML = buildFirmaHTML(data, true);
-    document.body.appendChild(host);
-
-    try{
-      const node = host.firstElementChild;
-      const canvas = await html2canvas(node, {
-        backgroundColor: "#ffffff",
-        scale: 2,
-        useCORS: true,
-        windowWidth: node.scrollWidth,
-        windowHeight: node.scrollHeight
-      });
-      const a = document.createElement("a");
-      a.href = canvas.toDataURL("image/png");
-      a.download = "firma-cafe-las-flores.png";
-      a.click();
-    } finally {
-      host.remove();
-    }
-  });
-
-  renderPreview();
 </script>
+  </div>
+
+  <!-- Modal: campos incompletos -->
+  <div id="reqModal" class="modal-backdrop" role="dialog" aria-modal="true"
+       aria-labelledby="reqTitle" aria-describedby="reqDesc">
+    <div class="modal">
+      <h3 id="reqTitle">Campos incompletos</h3>
+      <p id="reqDesc">Para generar la firma, completá <b>Nombre, Cargo, Teléfono y Dirección</b>.</p>
+      <div class="actions">
+        <button id="reqClose" class="primary" type="button" aria-label="Cerrar aviso">Entendido</button>
+      </div>
+    </div>
   </div>
 </body>
 </html>
+
 
