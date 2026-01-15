@@ -121,16 +121,16 @@
       box-shadow:0 2px 6px rgba(185,28,28,.10);
     }
 
-    /* ====== PASTILLA BLANCA para las palabras en rojo ====== */
+    /* ====== Palabras rojas con BORDE blanco (sin fondo) ====== */
     #reqDesc b{
-      color:#b91c1c;                      /* rojo */
-      background: rgba(255,255,255,.95);  /* marco/pastilla blanca */
-      padding:2px 6px;
-      border-radius:6px;
-      box-shadow:0 1px 2px rgba(0,0,0,.08);
+      color:#b91c1c;
+      /* “stroke” simulada con múltiples sombras muy finas */
       text-shadow:
+        0 0 1px #fff,
         -1px 0 #fff, 1px 0 #fff,
-         0 -1px #fff, 0 1px #fff;         /* contorno extra por si el fondo es complejo */
+        0 -1px #fff, 0 1px #fff,
+        -1px -1px #fff, 1px -1px #fff,
+        -1px 1px #fff, 1px 1px #fff;
     }
 
     .modal-backdrop.open .modal{ animation: modalPop .16s ease-out; }
@@ -370,6 +370,7 @@
   </script>
 </body>
 </html>
+
 
 
 
