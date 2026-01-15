@@ -8,7 +8,7 @@
     :root{
       --border:#e5e7eb; --text:#111827; --muted:#6b7280; --bg:#ffffff; --soft:#f9fafb;
       /* Paleta modal semi clara */
-      --modal-bg: rgba(40,34,31,0.62);  /* más claro que antes */
+      --modal-bg: rgba(40,34,31,0.62);
       --modal-border:#b91c1c;
       --modal-text:#f8fafc;
       --modal-muted:#eef2f7;
@@ -75,7 +75,7 @@
 
     /* ========= Modal semi claro ========= */
     .modal-backdrop{
-      position:fixed; inset:0; background:rgba(0,0,0,.28); /* más claro */
+      position:fixed; inset:0; background:rgba(0,0,0,.28);
       display:none; align-items:center; justify-content:center; z-index:9999;
     }
     .modal-backdrop.open{ display:flex; }
@@ -98,7 +98,7 @@
     .modal::before{
       content:""; position:absolute; left:14px; right:14px; top:10px; height:3px; border-radius:3px;
       background: linear-gradient(90deg,#b91c1c, #f97316 60%, #b91c1c);
-      opacity:.55; /* más sutil */
+      opacity:.55;
     }
     .modal h3{ margin:8px 0 12px; font-size:18px; }
     .modal p{ margin:0 0 14px; color:var(--modal-muted); }
@@ -120,7 +120,18 @@
       font-weight:800; text-decoration: underline; text-underline-offset: 4px; letter-spacing:.2px;
       box-shadow:0 2px 6px rgba(185,28,28,.10);
     }
-    #reqDesc b{ color:#b91c1c; }
+
+    /* ====== PASTILLA BLANCA para las palabras en rojo ====== */
+    #reqDesc b{
+      color:#b91c1c;                      /* rojo */
+      background: rgba(255,255,255,.95);  /* marco/pastilla blanca */
+      padding:2px 6px;
+      border-radius:6px;
+      box-shadow:0 1px 2px rgba(0,0,0,.08);
+      text-shadow:
+        -1px 0 #fff, 1px 0 #fff,
+         0 -1px #fff, 0 1px #fff;         /* contorno extra por si el fondo es complejo */
+    }
 
     .modal-backdrop.open .modal{ animation: modalPop .16s ease-out; }
     @keyframes modalPop{ from{transform:scale(.97);opacity:.9;} to{transform:scale(1);opacity:1;} }
@@ -207,7 +218,7 @@
        aria-labelledby="reqTitle" aria-describedby="reqDesc">
     <div class="modal">
       <h3 id="reqTitle">Campos incompletos</h3>
-      <p id="reqDesc">Para generar la firma, completá <b>Nombre, Cargo, Teléfono y Dirección</b>.</p>
+      <p id="reqDesc">Para generar la firma, completá <b>Nombre</b>, <b>Cargo</b>, <b>Teléfono</b> y <b>Dirección</b>.</p>
       <div class="actions">
         <button id="reqClose" class="primary" type="button" aria-label="Cerrar aviso">Entendido</button>
       </div>
@@ -311,7 +322,7 @@
         el.focus({preventScroll:false});
         setTimeout(()=> el.classList.remove("field-alert"), 950);
         $("sigPreview").innerHTML = `<div style="color:#6b7280;font-size:13px;">
-          Completa <b>Nombre, Cargo, Teléfono (8 dígitos) y Dirección</b> y presiona “Generar”.
+          Completa <b>Nombre</b>, <b>Cargo</b>, <b>Teléfono</b> y <b>Dirección</b> y presiona “Generar”.
         </div>`;
         openReqModal();
         return false;
@@ -353,12 +364,13 @@
 
       // Mensaje inicial
       $("sigPreview").innerHTML = `<div style="color:#6b7280;font-size:13px;">
-        Completa <b>Nombre, Cargo, Teléfono y Dirección</b> y presiona “Generar”.
+        Completa <b>Nombre</b>, <b>Cargo</b>, <b>Teléfono</b> y <b>Dirección</b> y presiona “Generar”.
       </div>`;
     });
   </script>
 </body>
 </html>
+
 
 
 
