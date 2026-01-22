@@ -14,15 +14,15 @@
       --modal-muted:#eef2f7;
     }
 
-    /* Fondo estático */
+    /* Fondo estático (evitar efecto raro en iframes móviles) */
     body{
       font-family: Arial, Helvetica, sans-serif;
       margin:0; color:#111827;
       background-image: url("assets/bg-cafe.png");
       background-size: cover; background-position: center;
-      background-repeat: no-repeat; background-attachment: fixed;
+      background-repeat: no-repeat; background-attachment: scroll;
     }
-    @media (max-width: 768px){ body{ background-attachment: scroll; } }
+    @media (min-width: 769px){ body{ background-attachment: fixed; } }
 
     .page-overlay{ min-height:100vh; background: rgba(0,0,0,0.25); }
     .wrap{max-width:980px; margin:0 auto; padding:18px 16px 28px;}
@@ -36,7 +36,7 @@
     .grid{display:grid; grid-template-columns: 1fr 1fr; gap:18px; align-items:start;}
     @media (max-width: 920px){ .grid{grid-template-columns:1fr;} }
 
-    .card{border:1px solid var(--border); border-radius:14px; padding:16px; background:var(--soft);}
+    .card{border:1px solid var(--border); border-radius:14px; padding:16px; background:var(--soft);} 
     .card h2{margin:0 0 12px; font-size:16px;}
 
     .form{display:grid; gap:10px;}
@@ -145,6 +145,13 @@
       60%{ box-shadow:0 0 0 3px rgba(239,68,68,.20); transform:scale(1); }
       100%{ box-shadow:0 0 0 0 rgba(239,68,68,0); transform:scale(1); }
     }
+
+    /* Modo “flush” para incrustar en Wix sin bordes visuales */
+    .flush-body .page-overlay{ background: transparent; }
+    .flush-body .wrap{ padding:0; max-width:none; }
+    .flush-body .grid{ gap:0; }
+    .flush-body .card{ border:0; border-radius:0; background:transparent; padding:0; }
+    .flush-body h1{ display:none; }
   </style>
 </head>
 
@@ -154,7 +161,7 @@
       <h1>Genera tu Firma Digital</h1>
 
       <div class="headerImg">
-        <img src="assets/header-cafe.png" alt="Café Las Flores">
+        <img src="assets/logo-clf.png" alt="Café Las Flores">
       </div>
 
       <div class="grid">
@@ -201,11 +208,12 @@
         <div class="card">
           <h2>Vista previa</h2>
           <div class="sigWrap">
-            <div id="sigPreview"></div>
+            <div id="sigPreview" role="region" aria-live="polite"></div>
           </div>
 
           <div class="actions">
             <button class="primary" id="btnDescargarPng" type="button">Descargar firma</button>
+            <button id="btnCopiarHtml" type="button">Copiar HTML</button>
             <button id="btnGmail" type="button">Configura tu firma</button>
           </div>
         </div>
@@ -228,7 +236,8 @@
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
   <script>
-    const LOGO_PNG_URL = "assets/header-cafe.png";
+    // Logo de la FIRMA (independiente del header)
+    const SIG_LOGO_URL = "assets/header-cafe.gif"; // puede ser GIF/PNG/JPG
     const PHONE_PREFIX = "+(505)";
     const $ = (id) => document.getElementById(id);
     const digitsOnly = s => (s||"").replace(/\D/g,"");
@@ -283,11 +292,11 @@
             <div class="sigName" style="font-size:22px;font-weight:800;margin:0 0 2px;">${esc(data.nombre)}</div>
             <div class="sigRole" style="font-size:14px;margin:0 0 10px;color:#111827;">${esc(data.cargo)}</div>
             <div class="sigPhone" style="font-size:14px;font-weight:800;margin:0 0 2px;">${esc(data.telefono)}</div>
-            <div class="sigWeb"><a href="${esc(data.web)}" style="color:#0b57d0;font-weight:800;text-decoration:none;">${esc(data.web)}</a></div>
+            <div class="sigWeb"><a href="${esc(data.web)}" style="color:#0b57d0;font-weight:800;text-decoration:none;" rel="noopener">${esc(data.web)}</a></div>
             <div class="sigAddr" style="font-size:13px;color:#374151;margin-top:10px;line-height:1.35;">${esc(data.direccion)}</div>
           </div>
           <div class="sigRight" style="width:220px;display:flex;justify-content:flex-end;align-items:center;">
-            <img src="${esc(LOGO_PNG_URL)}" alt="Café Las Flores" style="max-width:220px;height:auto;display:block;" />
+            <img src="${esc(SIG_LOGO_URL)}" alt="Café Las Flores" style="max-width:220px;height:auto;display:block;" />
           </div>
         </div>
       `.trim();
@@ -331,6 +340,32 @@
       return true;
     }
 
+    function getSignatureHTML(){
+      const data = getData();
+      return buildFirmaHTML(data, false);
+    }
+
+    async function copyHTML(){
+      const ok = renderPreview();
+      if(!ok) return;
+      const html = getSignatureHTML();
+      try{
+        if (window.ClipboardItem) {
+          const blob = new Blob([html], { type: 'text/html' });
+          await navigator.clipboard.write([new ClipboardItem({ 'text/html': blob })]);
+        } else {
+          await navigator.clipboard.writeText(html);
+        }
+        alert('HTML de la firma copiado. Pégalo en tu cliente de correo.');
+      }catch(err){
+        // Fallback clásico
+        const ta = document.createElement('textarea');
+        ta.value = html; document.body.appendChild(ta);
+        ta.select(); document.execCommand('copy'); ta.remove();
+        alert('HTML copiado (método alternativo).');
+      }
+    }
+
     document.addEventListener("DOMContentLoaded", ()=>{
       $("btnGenerar").addEventListener("click", renderPreview);
       $("btnLimpiar").addEventListener("click", ()=>{
@@ -340,6 +375,7 @@
       $("btnGmail").addEventListener("click", ()=>{
         window.open("https://docs.google.com/document/d/1rwJR7VNI9PRI4qNyL5AO1308kTgkb6Y-ntX6AZaaSGc/edit?usp=sharing", "_blank", "noopener,noreferrer");
       });
+      $("btnCopiarHtml").addEventListener("click", copyHTML);
       $("btnDescargarPng").addEventListener("click", async ()=>{
         const ok = renderPreview();
         if(!ok) return;
@@ -362,6 +398,12 @@
         } finally { host.remove(); }
       });
 
+      // Modo "flush" automático si viene en query (?flush=1) para Wix iFrame sin bordes
+      try{
+        const params = new URLSearchParams(location.search);
+        if (params.get('flush') === '1') document.body.classList.add('flush-body');
+      }catch{}
+
       // Mensaje inicial
       $("sigPreview").innerHTML = `<div style="color:#6b7280;font-size:13px;">
         Completa <b>Nombre</b>, <b>Cargo</b>, <b>Teléfono</b> y <b>Dirección</b> y presiona “Generar”.
@@ -370,6 +412,7 @@
   </script>
 </body>
 </html>
+
 
 
 
