@@ -56,7 +56,7 @@
 
     /* Vista previa firma */
     .sigWrap{border:1px dashed #cbd5e1; border-radius:14px; padding:14px; background:#fff;}
-    .firmaPreview{width:100%; display:flex; gap:14px; align-items:center; background:#fff;}
+    .firmaPreview{width:100%; display:flex; gap:2cm; align-items:center; background:#fff;} /* separación 2 cm */
     .sigLeft{flex:1; min-width:220px;}
     .sigRight{display:flex; justify-content:flex-end; align-items:center;}
 
@@ -177,10 +177,10 @@
     // ===== Config =====
     const SIG_LOGO_URL = "assets/header-cafe.gif"; // GIF/PNG/JPG de la firma (no del header)
     const PHONE_PREFIX = "+(505)";
-    // Tamaños como en tu "imagen 1"
-    const SIG_LOGO_PREVIEW_WIDTH = 150; // px (preview)
-    const SIG_LOGO_EMAIL_WIDTH   = 150; // px (archivo HTML)
-    const FS = { name:'18px', role:'14px', phone:'13px', web:'13px', addr:'12px' };
+    // Tamaños +30% (imagen 1 como referencia)
+    const SIG_LOGO_PREVIEW_WIDTH = 195; // px (preview)
+    const SIG_LOGO_EMAIL_WIDTH   = 195; // px (archivo HTML)
+    const FS = { name:'24px', role:'18px', phone:'17px', web:'17px', addr:'16px' };
 
     // ===== Helpers =====
     const $ = (id) => document.getElementById(id);
@@ -221,8 +221,8 @@
     function buildFirmaHTML(data, fixedWidth){
       const isCapture = !!fixedWidth;
       const baseStyle = isCapture
-        ? "display:inline-flex;gap:14px;align-items:center;background:#fff;padding:12px 14px;border:1px solid #e5e7eb;border-radius:12px;"
-        : "width:100%;display:flex;gap:14px;align-items:center;background:#fff;";
+        ? "display:inline-flex;gap:2cm;align-items:center;background:#fff;padding:12px 14px;border:1px solid #e5e7eb;border-radius:12px;"
+        : "width:100%;display:flex;gap:2cm;align-items:center;background:#fff;"; /* gap 2 cm */
       const leftStyle = isCapture
         ? "flex:0 1 auto;min-width:220px;max-width:520px;"
         : "flex:1;min-width:220px;";
@@ -233,9 +233,9 @@
       return `
         <div class="${isCapture ? "" : "firmaPreview"}" style="${baseStyle}">
           <div class="sigLeft" style="${leftStyle}">
-            <div class="sigName" style="font-size:${FS.name};font-weight:800;margin:0 0 4px;">${esc(data.nombre)}</div>
-            <div class="sigRole" style="font-size:${FS.role};margin:0 0 10px;color:#111827;">${esc(data.cargo)}</div>
-            <div class="sigPhone" style="font-size:${FS.phone};font-weight:800;margin:0 0 6px;">${esc(data.telefono)}</div>
+            <div class="sigName" style="font-size:${FS.name};font-weight:800;margin:0 0 6px;">${esc(data.nombre)}</div>
+            <div class="sigRole" style="font-size:${FS.role};margin:0 0 12px;color:#111827;">${esc(data.cargo)}</div>
+            <div class="sigPhone" style="font-size:${FS.phone};font-weight:800;margin:0 0 8px;">${esc(data.telefono)}</div>
             <div class="sigWeb"  style="font-size:${FS.web};font-weight:800;">
               <a href="${esc(data.web)}" style="color:#0b57d0;text-decoration:none;" rel="noopener">${esc(data.web)}</a>
             </div>
@@ -251,21 +251,20 @@
     // ===== Firma TABLA para descarga (email-friendly) con GIF embebido =====
     function buildFirmaTableHTML(data, dataUrlGif){
       const safe = s => (s||"").replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
-      const webHost = (()=>{ try{ return new URL(data.web).host; }catch{ return data.web; } })();
-
       return `
 <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;background:#ffffff;border:1px solid #e5e7eb;border-radius:12px;font-family:Arial,Helvetica,sans-serif;">
   <tr>
     <td style="padding:14px 16px;">
       <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;">
         <tr>
-          <td style="padding:0 18px 0 0; vertical-align:top;">
+          <!-- Columna izquierda con padding-right de 2 cm -->
+          <td style="padding:0 2cm 0 0; vertical-align:top;">
             <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;">
               <tr><td style="font-weight:800;font-size:${FS.name};color:#111827;">${safe(data.nombre)}</td></tr>
-              <tr><td style="font-size:${FS.role};color:#111827;padding:2px 0 8px 0;">${safe(data.cargo)}</td></tr>
-              <tr><td style="font-size:${FS.phone};color:#111827;font-weight:800;padding:0 0 6px 0;">${safe(data.telefono)}</td></tr>
-              <tr><td style="font-size:${FS.web};color:#0b57d0;padding:0 0 6px 0;">
-                <a href="${safe(data.web)}" style="color:#0b57d0;text-decoration:none;font-weight:800;" target="_blank" rel="noopener">${safe(webHost)}</a>
+              <tr><td style="font-size:${FS.role};color:#111827;padding:4px 0 12px 0;">${safe(data.cargo)}</td></tr>
+              <tr><td style="font-size:${FS.phone};color:#111827;font-weight:800;padding:0 0 8px 0;">${safe(data.telefono)}</td></tr>
+              <tr><td style="font-size:${FS.web};color:#0b57d0;padding:0 0 8px 0;">
+                <a href="${safe(data.web)}" style="color:#0b57d0;text-decoration:none;font-weight:800;" target="_blank" rel="noopener">${safe(data.web)}</a>
               </td></tr>
               <tr><td style="font-size:${FS.addr};color:#374151;line-height:1.35;">${safe(data.direccion)}</td></tr>
             </table>
@@ -348,7 +347,7 @@
         window.open("https://docs.google.com/document/d/1rwJR7VNI9PRI4qNyL5AO1308kTgkb6Y-ntX6AZaaSGc/edit?usp=sharing", "_blank", "noopener,noreferrer");
       });
 
-      // Descargar HTML (tabla + GIF embebido base64) con tamaños de imagen 1
+      // Descargar HTML (tabla + GIF embebido base64)
       $("btnDescargarHtml").addEventListener("click", async ()=>{
         const ok = renderPreview(); if (!ok) return;
         const data = getData();
@@ -377,6 +376,7 @@
   </script>
 </body>
 </html>
+
 
 
 
