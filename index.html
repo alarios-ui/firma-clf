@@ -213,6 +213,7 @@
 
           <div class="actions">
             <button class="primary" id="btnDescargarPng" type="button">Descargar firma</button>
+            <button id="btnDescargarHtml" type="button">Descargar firma (HTML)</button>
             <button id="btnCopiarHtml" type="button">Copiar HTML</button>
             <button id="btnGmail" type="button">Configura tu firma</button>
           </div>
@@ -358,7 +359,6 @@
         }
         alert('HTML de la firma copiado. Pégalo en tu cliente de correo.');
       }catch(err){
-        // Fallback clásico
         const ta = document.createElement('textarea');
         ta.value = html; document.body.appendChild(ta);
         ta.select(); document.execCommand('copy'); ta.remove();
@@ -376,6 +376,20 @@
         window.open("https://docs.google.com/document/d/1rwJR7VNI9PRI4qNyL5AO1308kTgkb6Y-ntX6AZaaSGc/edit?usp=sharing", "_blank", "noopener,noreferrer");
       });
       $("btnCopiarHtml").addEventListener("click", copyHTML);
+
+      // NUEVO: Descargar firma como HTML (conserva GIF animado)
+      $("btnDescargarHtml").addEventListener("click", ()=>{
+        const ok = renderPreview(); if (!ok) return;
+        const html = getSignatureHTML();
+        const doc = `<!doctype html><html lang="es"><meta charset="utf-8"><body style="margin:0">${html}</body></html>`;
+        const blob = new Blob([doc], {type:"text/html"});
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = "firma-cafe-las-flores.html";
+        a.click();
+        URL.revokeObjectURL(a.href);
+      });
+
       $("btnDescargarPng").addEventListener("click", async ()=>{
         const ok = renderPreview();
         if(!ok) return;
@@ -412,6 +426,7 @@
   </script>
 </body>
 </html>
+
 
 
 
