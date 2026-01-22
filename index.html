@@ -184,7 +184,7 @@
               <div class="phoneWrap">
                 <div class="phonePrefix">+(505)</div>
                 <!-- acepta números y '-', auto-formato dddd dddd o dddd-dddd -->
-                <input id="telefono_num" placeholder="Ej: 5764 9650" maxlength="9" inputmode="numeric" autocomplete="tel" />
+                <input id="telefono_num" placeholder="Ej: 5764 9650" maxlength="9" inputmode="numeric" autocomplete="tel" pattern="[0-9 ]*" />
               </div>
             </div>
 
@@ -247,16 +247,15 @@
       if(!input) return;
 
       input.addEventListener("keydown", (e)=>{
-        const allowed = ["Backspace","Delete","Tab","Escape","Enter","ArrowLeft","ArrowRight","Home","End"];
+        const allowed = ["Backspace","Delete","Tab","Escape","Enter","ArrowLeft","ArrowRight","Home","End"," "];
         const isCtrlCmd = e.ctrlKey || e.metaKey;
         if (allowed.includes(e.key) || isCtrlCmd) return;
-        if (!/^[0-9-]$/.test(e.key)) e.preventDefault();
+        if (!/^[0-9]$/.test(e.key)) e.preventDefault();
       });
 
       input.addEventListener("input", ()=>{
-        const hadDash = input.value.includes("-");
-        let v = digitsOnly(input.value).slice(0,8);
-        if(v.length > 4) v = v.slice(0,4) + (hadDash ? "-" : " ") + v.slice(4);
+        let v = (input.value||"").replace(/\D/g,"").slice(0,8);
+        if(v.length > 4) v = v.slice(0,4) + " " + v.slice(4);
         input.value = v;
       });
     })();
@@ -385,20 +384,7 @@
         a.click();
         URL.revokeObjectURL(a.href);
       });
-      // Opción PNG eliminada por requerimiento
-        if(!ok) return;
-        if (typeof html2canvas === "undefined") { alert("No se pudo cargar html2canvas."); return; }
-        const data = getData();
-        const host = document.createElement("div");
-        host.className = "captureHost";
-        host.innerHTML = buildFirmaHTML(data, true);
-        document.body.appendChild(host);
-        try{
-          const node = host.firstElementChild;
-          const canvas = await html2canvas(node, {
-            backgroundColor: "#ffffff", scale: 2, useCORS: true,
-            windowWidth: node.scrollWidth, windowHeight: node.scrollHeight
-          });
+
           const a = document.createElement("a");
           a.href = canvas.toDataURL("image/png");
           a.download = "firma-cafe-las-flores.png";
