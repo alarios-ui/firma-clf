@@ -21,51 +21,51 @@
     @media (min-width:769px){ body{ background-attachment:fixed; } }
 
     .page-overlay{ min-height:100vh; background:rgba(0,0,0,.25); }
-    .wrap{max-width:980px; margin:0 auto; padding:18px 16px 28px;}
+    .wrap{max-width:1080px; margin:0 auto; padding:22px 18px 32px;}
     h1{
-      margin:0 0 10px; font-size:34px; font-weight:800; color:#fff;
+      margin:0 0 12px; font-size:38px; font-weight:800; color:#fff;
       text-shadow:0 0 4px rgba(255,255,255,.6),0 0 10px rgba(255,255,255,.35),1px 1px 2px rgba(0,0,0,.8);
     }
-    .headerImg{margin:6px 0 18px;}
-    .headerImg img{max-height:78px; width:auto; display:block;}
+    .headerImg{margin:8px 0 20px;}
+    .headerImg img{max-height:84px; width:auto; display:block;}
 
-    .grid{display:grid; grid-template-columns:1fr 1fr; gap:18px; align-items:start;}
-    @media (max-width:920px){ .grid{grid-template-columns:1fr;} }
+    .grid{display:grid; grid-template-columns:1fr 1fr; gap:22px; align-items:start;}
+    @media (max-width:980px){ .grid{grid-template-columns:1fr;} }
 
-    .card{border:1px solid var(--border); border-radius:14px; padding:16px; background:var(--soft);}
+    .card{border:1px solid var(--border); border-radius:14px; padding:18px; background:var(--soft);}
     .card h2{margin:0 0 12px; font-size:16px;}
 
-    .form{display:grid; gap:10px;}
-    .row{display:grid; grid-template-columns:120px 300px; gap:10px; align-items:center;}
-    @media (max-width:520px){ .row{grid-template-columns:1fr;} }
-    label{font-weight:700; font-size:13px;}
+    .form{display:grid; gap:12px;}
+    .row{display:grid; grid-template-columns:140px 360px; gap:12px; align-items:center;}
+    @media (max-width:560px){ .row{grid-template-columns:1fr;} }
+    label{font-weight:700; font-size:14px;}
     input{
-      width:300px; max-width:100%; box-sizing:border-box;
+      width:360px; max-width:100%; box-sizing:border-box;
       border:1px solid var(--border); border-radius:10px;
-      padding:10px 12px; font-size:14px; background:#fff; display:block; justify-self:start;
+      padding:12px 14px; font-size:15px; background:#fff; display:block; justify-self:start;
     }
     input[readonly]{background:#f3f4f6; color:#374151;}
 
-    .actions{display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;}
-    button{border:1px solid var(--border); background:#fff; padding:10px 12px; border-radius:10px; cursor:pointer; font-weight:700;}
+    .actions{display:flex; gap:12px; flex-wrap:wrap; margin-top:12px;}
+    button{border:1px solid var(--border); background:#fff; padding:12px 14px; border-radius:10px; cursor:pointer; font-weight:700;}
     button.primary{background:#111827; color:#fff; border-color:#111827;}
 
     /* Teléfono */
-    .phoneWrap{display:flex; gap:8px; align-items:center; width:300px; max-width:100%;}
-    .phonePrefix{border:1px solid var(--border); border-radius:10px; padding:10px 12px; background:#f3f4f6; color:#374151; font-size:14px; white-space:nowrap;}
+    .phoneWrap{display:flex; gap:10px; align-items:center; width:360px; max-width:100%;}
+    .phonePrefix{border:1px solid var(--border); border-radius:10px; padding:12px 14px; background:#f3f4f6; color:#374151; font-size:15px; white-space:nowrap;}
     .phoneWrap input{flex:1; min-width:0; width:auto;}
 
-    /* Vista previa compacta */
-    .sigWrap{border:1px dashed #cbd5e1; border-radius:12px; padding:12px; background:#fff;}
-    .firmaPreview{width:100%; display:flex; gap:10px; align-items:center; background:#fff;}
-    .sigLeft{flex:1; min-width:220px;}
-    .sigName{font-size:20px; font-weight:800; margin:0 0 2px;}
-    .sigRole{font-size:13px; margin:0 0 8px; color:#111827;}
-    .sigPhone{font-size:13px; font-weight:800; margin:0 0 2px;}
-    .sigWeb a{font-size:13px; color:#0b57d0; font-weight:800; text-decoration:none;}
-    .sigAddr{font-size:12px; color:#374151; margin-top:8px; line-height:1.3;}
-    .sigRight{width:120px; display:flex; justify-content:flex-end; align-items:center;}
-    .sigRight img{max-width:120px; height:auto; display:block;}
+    /* Vista previa ampliada (~40%) y con más separación al logo */
+    .sigWrap{border:1px dashed #cbd5e1; border-radius:12px; padding:14px; background:#fff;}
+    .firmaPreview{width:100%; display:flex; gap:24px; align-items:center; background:#fff;}
+    .sigLeft{flex:1; min-width:260px;}
+    .sigName{font-size:28px; font-weight:800; margin:0 0 4px; line-height:1.15;}
+    .sigRole{font-size:18px; margin:0 0 10px; color:#111827; line-height:1.2;}
+    .sigPhone{font-size:18px; font-weight:800; margin:0 0 4px; line-height:1.2;}
+    .sigWeb a{font-size:18px; color:#0b57d0; font-weight:800; text-decoration:none; line-height:1.2;}
+    .sigAddr{font-size:17px; color:#374151; margin-top:10px; line-height:1.3;}
+    .sigRight{width:168px; display:flex; justify-content:flex-end; align-items:center;} /* 120*1.4=168 */
+    .sigRight img{max-width:168px; height:auto; display:block;}
 
     .captureHost{ position:fixed; left:-10000px; top:0; background:#fff; padding:0; margin:0; z-index:-1; }
 
@@ -73,12 +73,12 @@
     .modal-backdrop{ position:fixed; inset:0; background:rgba(0,0,0,.28); display:none; align-items:center; justify-content:center; z-index:9999; }
     .modal-backdrop.open{ display:flex; }
     .modal{
-      position:relative; width:calc(100% - 32px); max-width:520px; border-radius:16px; padding:20px 18px; color:var(--modal-text);
+      position:relative; width:calc(100% - 32px); max-width:560px; border-radius:16px; padding:22px 20px; color:var(--modal-text);
       background: radial-gradient(120% 120% at 50% -10%, rgba(255,255,255,.16), transparent 60%), linear-gradient(180deg, rgba(70,62,58,.72), var(--modal-bg));
       backdrop-filter: blur(5px) saturate(120%); border:2px solid var(--modal-border);
       box-shadow:0 8px 20px rgba(0,0,0,.22), 0 0 0 3px rgba(185,28,28,.07);
     }
-    .modal::before{ content:""; position:absolute; left:14px; right:14px; top:10px; height:3px; border-radius:3px;
+    .modal::before{ content:""; position:absolute; left:16px; right:16px; top:10px; height:3px; border-radius:3px;
       background:linear-gradient(90deg,#b91c1c,#f97316 60%,#b91c1c); opacity:.55; }
     .modal h3{ margin:8px 0 12px; font-size:18px; }
     .modal p{ margin:0 0 14px; color:var(--modal-muted); }
@@ -101,9 +101,9 @@
 
     .input-error{ border-color:#ef4444 !important; box-shadow:0 0 0 3px rgba(239,68,68,.15); }
     .field-alert{ animation: fieldPulse .9s ease-out 1; }
-    @keyframes fieldPulse{ 0%{ box-shadow:0 0 0 0 rgba(239,68,68,.35); transform:scale(1);} 30%{ box-shadow:0 0 0 6px rgba(239,68,68,.15); transform:scale(1.01);} 60%{ box-shadow:0 0 0 3px rgba(239,68,68,.20); transform:scale(1);} 100%{ box-shadow:0 0 0 0 rgba(239,68,68,0); transform:scale(1);} }
+    @keyframes fieldPulse{ 0%{ box-shadow:0 0 0 0 rgba(239,68,68,.35); transform:scale(1);} 30%{ box_shadow:0 0 0 6px rgba(239,68,68,.15); transform:scale(1.01);} 60%{ box-shadow:0 0 0 3px rgba(239,68,68,.20); transform:scale(1);} 100%{ box-shadow:0 0 0 0 rgba(239,68,68,0); transform:scale(1);} }
 
-    /* Flush para iFrame si se usa ?flush=1 */
+    /* Flush iFrame ?flush=1 */
     .flush-body .page-overlay{ background:transparent; }
     .flush-body .wrap{ padding:0; max-width:none; }
     .flush-body .grid{ gap:0; }
@@ -147,7 +147,7 @@
             </div>
             <div class="row">
               <label for="direccion">Dirección</label>
-              <input id="direccion" placeholder="Ej: Km. 13.1 Carretera Masaya ... Managua" maxlength="140" />
+              <input id="direccion" placeholder="Ej: Km. 13.1 Carretera Masaya ... Managua" maxlength="160" />
             </div>
 
             <div class="actions">
@@ -175,7 +175,7 @@
     </div>
   </div>
 
-  <!-- Modal requeridos -->
+  <!-- Modal -->
   <div id="reqModal" class="modal-backdrop" role="dialog" aria-modal="true"
        aria-labelledby="reqTitle" aria-describedby="reqDesc">
     <div class="modal">
@@ -193,7 +193,7 @@
     // ===== Config =====
     const SIG_LOGO_URL = "assets/header-cafe.gif"; // GIF/PNG/JPG para la firma
     const PHONE_PREFIX = "+(505)";
-    const WEB_TEXT = "https://cafelasflores.com/";  // Texto siempre visible
+    const WEB_TEXT = "https://cafelasflores.com/";  // Texto visible fijo
     const ABS_BASE = "https://alarios-ui.github.io/firma-clf/"; // ajusta si cambia el repo
     const ABS_LOGO_URL = new URL(SIG_LOGO_URL, ABS_BASE).href;
 
@@ -202,7 +202,6 @@
     const digitsOnly = s => (s||"").replace(/\D/g,"");
     const esc = (s) => (s||"").replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
-    // Normaliza URL; fuerza https en cafelasflores.com
     function normalizeWeb(u){
       let s = (u||"").trim();
       if(!s) return WEB_TEXT;
@@ -211,7 +210,7 @@
       return s;
     }
 
-    // Teléfono: sólo números + autoformato dddd dddd
+    // Teléfono dddd dddd
     (function enforcePhone(){
       const input = $("telefono_num");
       if(!input) return;
@@ -238,7 +237,7 @@
         cargo: $("cargo").value.trim(),
         telefonoNum: phoneDigits,
         telefono: phoneDigits ? `${PHONE_PREFIX} ${phoneFormatted}` : "",
-        web: webNorm, // href normalizado
+        web: webNorm,
         direccion: $("direccion").value.trim(),
       };
     }
@@ -246,57 +245,57 @@
     function buildFirmaHTML(data, fixedWidth){
       const isCapture = !!fixedWidth;
       const baseStyle = isCapture
-        ? "display:inline-flex;gap:10px;align-items:center;background:#fff;padding:12px 14px;border:1px solid #e5e7eb;border-radius:12px;"
-        : "width:100%;display:flex;gap:10px;align-items:center;background:#fff;";
+        ? "display:inline-flex;gap:24px;align-items:center;background:#fff;padding:16px 18px;border:1px solid #e5e7eb;border-radius:12px;"
+        : "width:100%;display:flex;gap:24px;align-items:center;background:#fff;";
       const leftStyle = isCapture
-        ? "flex:0 1 auto;min-width:220px;max-width:520px;"
-        : "flex:1;min-width:220px;";
+        ? "flex:0 1 auto;min-width:260px;max-width:680px;"
+        : "flex:1;min-width:260px;";
 
       return `
         <div class="${isCapture ? "" : "firmaPreview"}" style="${baseStyle}">
           <div class="sigLeft" style="${leftStyle}">
-            <div class="sigName" style="font-size:20px;font-weight:800;margin:0 0 2px;">${esc(data.nombre)}</div>
-            <div class="sigRole" style="font-size:13px;margin:0 0 8px;color:#111827;">${esc(data.cargo)}</div>
-            <div class="sigPhone" style="font-size:13px;font-weight:800;margin:0 0 2px;">${esc(data.telefono)}</div>
-            <div class="sigWeb"><a href="${esc(data.web)}" style="font-size:13px;color:#0b57d0;font-weight:800;text-decoration:none;" rel="noopener">${WEB_TEXT}</a></div>
-            <div class="sigAddr" style="font-size:12px;color:#374151;margin-top:8px;line-height:1.3;">${esc(data.direccion)}</div>
+            <div class="sigName" style="font-size:28px;font-weight:800;margin:0 0 4px;line-height:1.15;">${esc(data.nombre)}</div>
+            <div class="sigRole" style="font-size:18px;margin:0 0 10px;color:#111827;line-height:1.2;">${esc(data.cargo)}</div>
+            <div class="sigPhone" style="font-size:18px;font-weight:800;margin:0 0 4px;line-height:1.2;">${esc(data.telefono)}</div>
+            <div class="sigWeb"><a href="${esc(data.web)}" style="font-size:18px;color:#0b57d0;font-weight:800;text-decoration:none;line-height:1.2;" rel="noopener">${WEB_TEXT}</a></div>
+            <div class="sigAddr" style="font-size:17px;color:#374151;margin-top:10px;line-height:1.3;">${esc(data.direccion)}</div>
           </div>
-          <div class="sigRight" style="width:120px;display:flex;justify-content:flex-end;align-items:center;">
-            <img src="${esc(SIG_LOGO_URL)}" alt="Café Las Flores" style="max-width:120px;height:auto;display:block;" />
+          <div class="sigRight" style="width:168px;display:flex;justify-content:flex-end;align-items:center;">
+            <img src="${esc(SIG_LOGO_URL)}" alt="Café Las Flores" style="max-width:168px;height:auto;display:block;" />
           </div>
         </div>
       `.trim();
     }
 
-    // ===== Firma TABLA (descarga HTML) compacta =====
+    // ===== Firma TABLA (descarga HTML) compacta con más separación =====
     function buildFirmaTableHTML(data, logoUrl){
       const safe = s => (s||"").replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
-      const hrefWeb = normalizeWeb(data.web); // asegura https en href
-      const linkText = WEB_TEXT;             // texto visible fijo
+      const hrefWeb = normalizeWeb(data.web);
+      const linkText = WEB_TEXT;
 
       return `
 <table role="presentation" cellpadding="0" cellspacing="0" border="0"
        style="border-collapse:collapse;background:#ffffff;border:1px solid #e5e7eb;border-radius:12px;
-              font-family:Arial,Helvetica,sans-serif; max-width:640px;">
+              font-family:Arial,Helvetica,sans-serif; max-width:820px;">
   <tr>
-    <td style="padding:12px 14px;">
+    <td style="padding:16px 18px;">
       <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;">
         <tr>
           <!-- Texto -->
-          <td style="padding:0 16px 0 0; vertical-align:top;">
+          <td style="padding:0 28px 0 0; vertical-align:top;">
             <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;">
-              <tr><td style="font-weight:800;font-size:20px;color:#111827; line-height:1.2;">${safe(data.nombre)}</td></tr>
-              <tr><td style="font-size:13px;color:#111827;padding:2px 0 8px 0; line-height:1.25;">${safe(data.cargo)}</td></tr>
-              <tr><td style="font-size:13px;color:#111827;font-weight:800;padding:0 0 4px 0; line-height:1.2;">${safe(data.telefono)}</td></tr>
-              <tr><td style="font-size:13px;color:#0b57d0;padding:0 0 6px 0; line-height:1.2;">
+              <tr><td style="font-weight:800;font-size:28px;color:#111827; line-height:1.15;">${safe(data.nombre)}</td></tr>
+              <tr><td style="font-size:18px;color:#111827;padding:4px 0 10px 0; line-height:1.2;">${safe(data.cargo)}</td></tr>
+              <tr><td style="font-size:18px;color:#111827;font-weight:800;padding:0 0 6px 0; line-height:1.2;">${safe(data.telefono)}</td></tr>
+              <tr><td style="font-size:18px;color:#0b57d0;padding:0 0 8px 0; line-height:1.2;">
                 <a href="${safe(hrefWeb)}" style="color:#0b57d0;text-decoration:none;font-weight:800;" target="_blank" rel="noopener">${safe(linkText)}</a>
               </td></tr>
-              <tr><td style="font-size:12px;color:#374151;line-height:1.3;">${safe(data.direccion)}</td></tr>
+              <tr><td style="font-size:17px;color:#374151;line-height:1.3;">${safe(data.direccion)}</td></tr>
             </table>
           </td>
           <!-- Logo -->
-          <td style="vertical-align:middle; text-align:right; padding-left:12px;">
-            <img src="${safe(logoUrl)}" alt="Café Las Flores" width="120" style="display:block;height:auto;border:0;outline:none;text-decoration:none;">
+          <td style="vertical-align:middle; text-align:right; padding-left:28px;">
+            <img src="${safe(logoUrl)}" alt="Café Las Flores" width="168" style="display:block;height:auto;border:0;outline:none;text-decoration:none;">
           </td>
         </tr>
       </table>
@@ -335,7 +334,7 @@
         el.classList.add("input-error","field-alert");
         el.focus({preventScroll:false});
         setTimeout(()=> el.classList.remove("field-alert"), 950);
-        $("sigPreview").innerHTML = `<div style="color:#6b7280;font-size:13px;">
+        $("sigPreview").innerHTML = `<div style="color:#6b7280;font-size:14px;">
           Completa <b>Nombre</b>, <b>Cargo</b>, <b>Teléfono</b> y <b>Dirección</b> y presiona “Generar”.
         </div>`;
         openReqModal();
@@ -371,7 +370,7 @@
       }
     }
 
-    // Convierte asset a data URL (embebe GIF para descarga offline)
+    // Convierte asset a data URL (para descarga offline)
     async function toDataURL(url){
       const abs = new URL(url, location.href).href;
       const resp = await fetch(abs, {cache:"no-store"});
@@ -447,14 +446,14 @@
         } finally { host.remove(); }
       });
 
-      // Modo "flush" (?flush=1) para iFrame
+      // Flush en iFrame (?flush=1)
       try{
         const params = new URLSearchParams(location.search);
         if (params.get('flush') === '1') document.body.classList.add('flush-body');
       }catch{}
 
       // Mensaje inicial
-      $("sigPreview").innerHTML = `<div style="color:#6b7280;font-size:13px;">
+      $("sigPreview").innerHTML = `<div style="color:#6b7280;font-size:14px;">
         Completa <b>Nombre</b>, <b>Cargo</b>, <b>Teléfono</b> y <b>Dirección</b> y presiona “Generar”.
       </div>`;
     });
