@@ -93,7 +93,7 @@
 
       /* borde y halo sutil */
       border:2px solid var(--modal-border);
-      box-shadow: 0 8px 20px rgba(0,0,0,.22), 0 0 0 3px rgba(185,28,28,.07);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.22), 0 0 0 3px rgba(185,28,28,0.07);
     }
     .modal::before{
       content:""; position:absolute; left:14px; right:14px; top:10px; height:3px; border-radius:3px;
@@ -377,10 +377,21 @@
       });
       $("btnCopiarHtml").addEventListener("click", copyHTML);
 
-      // NUEVO: Descargar firma como HTML (conserva GIF animado)
+      // NUEVO: Descargar firma como HTML con URL absoluta para el GIF
       $("btnDescargarHtml").addEventListener("click", ()=>{
         const ok = renderPreview(); if (!ok) return;
-        const html = getSignatureHTML();
+        let html = getSignatureHTML();
+
+        // construir URL absoluta del logo de la firma
+        const absLogo = new URL(SIG_LOGO_URL, location.href).href;
+
+        // reemplazos seguros (por si la URL se escapa con esc())
+        html = html.replace(`src="${SIG_LOGO_URL}"`, `src="${absLogo}"`)
+                   .replace(
+                     `src="${SIG_LOGO_URL.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}"`,
+                     `src="${absLogo}"`
+                   );
+
         const doc = `<!doctype html><html lang="es"><meta charset="utf-8"><body style="margin:0">${html}</body></html>`;
         const blob = new Blob([doc], {type:"text/html"});
         const a = document.createElement("a");
@@ -426,6 +437,7 @@
   </script>
 </body>
 </html>
+
 
 
 
