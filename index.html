@@ -10,24 +10,26 @@
       --modal-bg: rgba(40,34,31,0.62); --modal-border:#b91c1c; --modal-text:#f8fafc; --modal-muted:#eef2f7;
     }
 
+    /* Fondo */
     body{
-      font-family: Arial, Helvetica, sans-serif; margin:0; color:#111827;
+      font-family: Arial, Helvetica, sans-serif;
+      margin:0; color:#111827;
       background-image:url("assets/bg-cafe.png");
       background-size:cover; background-position:center;
       background-repeat:no-repeat; background-attachment:scroll;
     }
     @media (min-width:769px){ body{ background-attachment:fixed; } }
 
-    .page-overlay{ min-height:100vh; background:rgba(0,0,0,0.25); }
+    .page-overlay{ min-height:100vh; background:rgba(0,0,0,.25); }
     .wrap{max-width:980px; margin:0 auto; padding:18px 16px 28px;}
     h1{
       margin:0 0 10px; font-size:34px; font-weight:800; color:#fff;
-      text-shadow:0 0 4px rgba(255,255,255,.6), 0 0 10px rgba(255,255,255,.35), 1px 1px 2px rgba(0,0,0,.8);
+      text-shadow:0 0 4px rgba(255,255,255,.6),0 0 10px rgba(255,255,255,.35),1px 1px 2px rgba(0,0,0,.8);
     }
     .headerImg{margin:6px 0 18px;}
     .headerImg img{max-height:78px; width:auto; display:block;}
 
-    .grid{display:grid; grid-template-columns: 1fr 1fr; gap:18px; align-items:start;}
+    .grid{display:grid; grid-template-columns:1fr 1fr; gap:18px; align-items:start;}
     @media (max-width:920px){ .grid{grid-template-columns:1fr;} }
 
     .card{border:1px solid var(--border); border-radius:14px; padding:16px; background:var(--soft);}
@@ -48,10 +50,12 @@
     button{border:1px solid var(--border); background:#fff; padding:10px 12px; border-radius:10px; cursor:pointer; font-weight:700;}
     button.primary{background:#111827; color:#fff; border-color:#111827;}
 
+    /* Teléfono */
     .phoneWrap{display:flex; gap:8px; align-items:center; width:300px; max-width:100%;}
     .phonePrefix{border:1px solid var(--border); border-radius:10px; padding:10px 12px; background:#f3f4f6; color:#374151; font-size:14px; white-space:nowrap;}
     .phoneWrap input{flex:1; min-width:0; width:auto;}
 
+    /* Vista previa firma */
     .sigWrap{border:1px dashed #cbd5e1; border-radius:14px; padding:14px; background:#fff;}
     .firmaPreview{width:100%; display:flex; gap:14px; align-items:center; background:#fff;}
     .sigLeft{flex:1; min-width:220px;}
@@ -65,24 +69,22 @@
 
     .captureHost{ position:fixed; left:-10000px; top:0; background:#fff; padding:0; margin:0; z-index:-1; }
 
-    .modal-backdrop{position:fixed; inset:0; background:rgba(0,0,0,.28); display:none; align-items:center; justify-content:center; z-index:9999;}
-    .modal-backdrop.open{display:flex;}
+    /* Modal */
+    .modal-backdrop{ position:fixed; inset:0; background:rgba(0,0,0,.28); display:none; align-items:center; justify-content:center; z-index:9999; }
+    .modal-backdrop.open{ display:flex; }
     .modal{
       position:relative; width:calc(100% - 32px); max-width:520px; border-radius:16px; padding:20px 18px; color:var(--modal-text);
       background: radial-gradient(120% 120% at 50% -10%, rgba(255,255,255,.16), transparent 60%), linear-gradient(180deg, rgba(70,62,58,.72), var(--modal-bg));
       backdrop-filter: blur(5px) saturate(120%); border:2px solid var(--modal-border);
       box-shadow:0 8px 20px rgba(0,0,0,.22), 0 0 0 3px rgba(185,28,28,.07);
     }
-    .modal::before{content:""; position:absolute; left:14px; right:14px; top:10px; height:3px; border-radius:3px;
-      background:linear-gradient(90deg,#b91c1c,#f97316 60%,#b91c1c); opacity:.55;}
-    .modal h3{margin:8px 0 12px; font-size:18px;}
-    .modal p{margin:0 0 14px; color:var(--modal-muted);}
-    .modal .actions .primary{
-      border:0; background:linear-gradient(135deg, #0f172a, #111827 35%, #1f2937 100%);
-      color:#fff; padding:10px 14px; border-radius:12px; font-weight:800; box-shadow:0 4px 10px rgba(0,0,0,.22);
-    }
-    .modal .actions .primary:hover{filter:brightness(1.07);}
-    .modal .actions .primary:active{transform:translateY(1px);}
+    .modal::before{ content:""; position:absolute; left:14px; right:14px; top:10px; height:3px; border-radius:3px;
+      background:linear-gradient(90deg,#b91c1c,#f97316 60%,#b91c1c); opacity:.55; }
+    .modal h3{ margin:8px 0 12px; font-size:18px; }
+    .modal p{ margin:0 0 14px; color:var(--modal-muted); }
+    .modal .actions .primary{ border:0; background:linear-gradient(135deg,#0f172a,#111827 35%,#1f2937 100%); color:#fff; padding:10px 14px; border-radius:12px; font-weight:800; box-shadow:0 4px 10px rgba(0,0,0,.22); }
+    .modal .actions .primary:hover{ filter:brightness(1.07); }
+    .modal .actions .primary:active{ transform:translateY(1px); }
     #reqTitle{
       display:inline-block; margin:0 0 10px; padding:8px 12px; border:2px solid var(--modal-border); border-radius:10px; color:#b91c1c; background:#fff5f5;
       font-weight:800; text-decoration:underline; text-underline-offset:4px; letter-spacing:.2px; box-shadow:0 2px 6px rgba(185,28,28,.10);
@@ -91,13 +93,14 @@
       color:#b91c1c;
       text-shadow:0 0 1px #fff,-1px 0 #fff,1px 0 #fff,0 -1px #fff,0 1px #fff,-1px -1px #fff,1px -1px #fff,-1px 1px #fff,1px 1px #fff;
     }
-    .modal-backdrop.open .modal{ animation:modalPop .16s ease-out; }
+    .modal-backdrop.open .modal{ animation: modalPop .16s ease-out; }
     @keyframes modalPop{ from{transform:scale(.97);opacity:.9;} to{transform:scale(1);opacity:1;} }
 
     .input-error{ border-color:#ef4444 !important; box-shadow:0 0 0 3px rgba(239,68,68,.15); }
-    .field-alert{ animation: fieldPulse .9s ease-out 1; }
+    .field-alert{ animation:fieldPulse .9s ease-out 1; }
     @keyframes fieldPulse{ 0%{ box-shadow:0 0 0 0 rgba(239,68,68,.35); transform:scale(1);} 30%{ box-shadow:0 0 0 6px rgba(239,68,68,.15); transform:scale(1.01);} 60%{ box-shadow:0 0 0 3px rgba(239,68,68,.20); transform:scale(1);} 100%{ box-shadow:0 0 0 0 rgba(239,68,68,0); transform:scale(1);} }
 
+    /* Flush para iFrame */
     .flush-body .page-overlay{ background:transparent; }
     .flush-body .wrap{ padding:0; max-width:none; }
     .flush-body .grid{ gap:0; }
@@ -124,12 +127,10 @@
               <label for="nombre">Nombre</label>
               <input id="nombre" placeholder="Ej: Larry Larios" maxlength="60" />
             </div>
-
             <div class="row">
               <label for="cargo">Cargo</label>
               <input id="cargo" placeholder="Ej: Especialista de Soporte Técnico" maxlength="80" />
             </div>
-
             <div class="row">
               <label for="telefono_num">Teléfono</label>
               <div class="phoneWrap">
@@ -137,12 +138,10 @@
                 <input id="telefono_num" placeholder="Ej: 5764 9650" maxlength="9" inputmode="numeric" autocomplete="tel" />
               </div>
             </div>
-
             <div class="row">
               <label for="web">Sitio Web</label>
               <input id="web" value="https://cafelasflores.com/" readonly />
             </div>
-
             <div class="row">
               <label for="direccion">Dirección</label>
               <input id="direccion" placeholder="Ej: Km. 13.1 Carretera Masaya ... Managua" maxlength="140" />
@@ -188,27 +187,25 @@
 
   <script>
     // ===== Config =====
-    const SIG_LOGO_URL = "assets/header-cafe.gif"; // logo de la FIRMA (puede ser GIF/PNG/JPG)
+    const SIG_LOGO_URL = "assets/header-cafe.gif"; // logo de la FIRMA (GIF/PNG/JPG)
     const PHONE_PREFIX = "+(505)";
-    // Base absoluta de tu GitHub Pages (ajústala si cambia el repo)
-    const ABS_BASE = "https://alarios-ui.github.io/firma-clf/";
 
     // ===== Helpers =====
     const $ = (id) => document.getElementById(id);
     const digitsOnly = s => (s||"").replace(/\D/g,"");
-    function esc(s){ return (s||"").replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+    const esc = (s) => (s||"").replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
-    // Teléfono: números y formato dddd dddd (acepta espacio o guion al teclear)
+    // Teléfono: sólo números + autoformato dddd dddd
     (function enforcePhone(){
       const input = $("telefono_num");
       if(!input) return;
       input.addEventListener("keydown",(e)=>{
         const allowed=["Backspace","Delete","Tab","Escape","Enter","ArrowLeft","ArrowRight","Home","End"," ","-"];
         const isCtrlCmd = e.ctrlKey || e.metaKey;
-        if(allowed.includes(e.key)||isCtrlCmd) return;
-        if(!/^[0-9]$/.test(e.key)) e.preventDefault();
+        if (allowed.includes(e.key) || isCtrlCmd) return;
+        if (!/^[0-9]$/.test(e.key)) e.preventDefault();
       });
-      input.addEventListener("input",()=>{
+      input.addEventListener("input", ()=>{
         let v = digitsOnly(input.value).slice(0,8);
         if(v.length>4) v = v.slice(0,4)+" "+v.slice(4);
         input.value = v;
@@ -254,10 +251,11 @@
       `.trim();
     }
 
-    // ===== Firma en TABLA (para descarga HTML) =====
-    function buildFirmaTableHTML(data, logoAbsUrl){
+    // ===== Firma TABLA para descarga (email-friendly) con GIF embebido =====
+    function buildFirmaTableHTML(data, dataUrlGif){
       const safe = s => (s||"").replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
       const webHost = (()=>{ try{ return new URL(data.web).host; }catch{ return data.web; } })();
+
       return `
 <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;background:#ffffff;border:1px solid #e5e7eb;border-radius:12px;font-family:Arial,Helvetica,sans-serif;">
   <tr>
@@ -276,7 +274,7 @@
             </table>
           </td>
           <td style="vertical-align:middle; text-align:right;">
-            <img src="${safe(logoAbsUrl)}" alt="Café Las Flores" style="max-width:220px;height:auto;display:block;border:0;outline:none;text-decoration:none;">
+            <img src="${dataUrlGif}" alt="Café Las Flores" width="220" style="display:block;height:auto;border:0;outline:none;text-decoration:none;">
           </td>
         </tr>
       </table>
@@ -330,6 +328,7 @@
       return buildFirmaHTML(data, false);
     }
 
+    // Copiar HTML (como lo ves en la vista previa)
     async function copyHTML(){
       const ok = renderPreview();
       if(!ok) return;
@@ -350,6 +349,18 @@
       }
     }
 
+    // Helper: asset -> data URL (para embeber el GIF)
+    async function toDataURL(url){
+      const abs = new URL(url, location.href).href;
+      const resp = await fetch(abs, {cache:"no-store"});
+      const blob = await resp.blob();
+      return await new Promise((resolve)=>{
+        const fr = new FileReader();
+        fr.onload = () => resolve(fr.result);
+        fr.readAsDataURL(blob);
+      });
+    }
+
     // ===== Eventos =====
     document.addEventListener("DOMContentLoaded", ()=>{
       $("btnGenerar").addEventListener("click", renderPreview);
@@ -362,12 +373,12 @@
       });
       $("btnCopiarHtml").addEventListener("click", copyHTML);
 
-      // Descargar HTML (tabla + URL absoluta del GIF)
-      $("btnDescargarHtml").addEventListener("click", ()=>{
+      // Descargar HTML (tabla + GIF embebido base64)
+      $("btnDescargarHtml").addEventListener("click", async ()=>{
         const ok = renderPreview(); if (!ok) return;
         const data = getData();
-        const absLogo = new URL(SIG_LOGO_URL, ABS_BASE).href; // evita rutas rotas
-        const htmlTable = buildFirmaTableHTML(data, absLogo);
+        const dataUrlGif = await toDataURL(SIG_LOGO_URL);
+        const htmlTable = buildFirmaTableHTML(data, dataUrlGif);
         const doc = `<!doctype html><html lang="es"><meta charset="utf-8"><body style="margin:0">${htmlTable}</body></html>`;
         const blob = new Blob([doc], {type:"text/html"});
         const a = document.createElement("a");
@@ -377,7 +388,7 @@
         URL.revokeObjectURL(a.href);
       });
 
-      // Descargar PNG (opcional, se mantiene como lo tenías)
+      // Descargar PNG (estático)
       $("btnDescargarPng").addEventListener("click", async ()=>{
         const ok = renderPreview();
         if(!ok) return;
@@ -400,7 +411,7 @@
         } finally { host.remove(); }
       });
 
-      // Modo "flush" para iFrame Wix
+      // Modo "flush" (?flush=1) para iFrame
       try{
         const params = new URLSearchParams(location.search);
         if (params.get('flush') === '1') document.body.classList.add('flush-body');
@@ -414,6 +425,7 @@
   </script>
 </body>
 </html>
+
 
 
 
