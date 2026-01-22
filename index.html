@@ -212,8 +212,7 @@
           </div>
 
           <div class="actions">
-            <button class="primary" id="btnDescargarPng" type="button">Descargar firma</button>
-            <button id="btnCopiarHtml" type="button">Copiar HTML</button>
+            <button class="primary" id="btnDescargarHtml" type="button">Descargar firma (HTML)</button>
             <button id="btnGmail" type="button">Configura tu firma</button>
           </div>
         </div>
@@ -375,9 +374,18 @@
       $("btnGmail").addEventListener("click", ()=>{
         window.open("https://docs.google.com/document/d/1rwJR7VNI9PRI4qNyL5AO1308kTgkb6Y-ntX6AZaaSGc/edit?usp=sharing", "_blank", "noopener,noreferrer");
       });
-      $("btnCopiarHtml").addEventListener("click", copyHTML);
-      $("btnDescargarPng").addEventListener("click", async ()=>{
-        const ok = renderPreview();
+      $("btnDescargarHtml").addEventListener("click", () => {
+        const ok = renderPreview(); if (!ok) return;
+        const html = getSignatureHTML();
+        const doc = `<!doctype html><html lang="es"><meta charset="utf-8"><body style="margin:0">${html}</body></html>`;
+        const blob = new Blob([doc], {type:"text/html"});
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = "firma-cafe-las-flores.html";
+        a.click();
+        URL.revokeObjectURL(a.href);
+      });
+      // Opción PNG eliminada por requerimiento
         if(!ok) return;
         if (typeof html2canvas === "undefined") { alert("No se pudo cargar html2canvas."); return; }
         const data = getData();
