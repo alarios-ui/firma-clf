@@ -184,7 +184,7 @@
               <div class="phoneWrap">
                 <div class="phonePrefix">+(505)</div>
                 <!-- acepta números y '-', auto-formato dddd dddd o dddd-dddd -->
-                <input id="telefono_num" placeholder="Ej: 5764 9650" maxlength="9" inputmode="numeric" autocomplete="tel" pattern="[0-9 ]*" />
+                <input id="telefono_num" placeholder="Ej: 5764 9650" maxlength="9" inputmode="numeric" autocomplete="tel" />
               </div>
             </div>
 
@@ -212,7 +212,8 @@
           </div>
 
           <div class="actions">
-            <button class="primary" id="btnDescargarHtml" type="button">Descargar firma (HTML)</button>
+            <button class="primary" id="btnDescargarPng" type="button">Descargar firma</button>
+            <button id="btnCopiarHtml" type="button">Copiar HTML</button>
             <button id="btnGmail" type="button">Configura tu firma</button>
           </div>
         </div>
@@ -247,15 +248,16 @@
       if(!input) return;
 
       input.addEventListener("keydown", (e)=>{
-        const allowed = ["Backspace","Delete","Tab","Escape","Enter","ArrowLeft","ArrowRight","Home","End"," "];
+        const allowed = ["Backspace","Delete","Tab","Escape","Enter","ArrowLeft","ArrowRight","Home","End"];
         const isCtrlCmd = e.ctrlKey || e.metaKey;
         if (allowed.includes(e.key) || isCtrlCmd) return;
-        if (!/^[0-9]$/.test(e.key)) e.preventDefault();
+        if (!/^[0-9-]$/.test(e.key)) e.preventDefault();
       });
 
       input.addEventListener("input", ()=>{
-        let v = (input.value||"").replace(/\D/g,"").slice(0,8);
-        if(v.length > 4) v = v.slice(0,4) + " " + v.slice(4);
+        const hadDash = input.value.includes("-");
+        let v = digitsOnly(input.value).slice(0,8);
+        if(v.length > 4) v = v.slice(0,4) + (hadDash ? "-" : " ") + v.slice(4);
         input.value = v;
       });
     })();
@@ -373,18 +375,22 @@
       $("btnGmail").addEventListener("click", ()=>{
         window.open("https://docs.google.com/document/d/1rwJR7VNI9PRI4qNyL5AO1308kTgkb6Y-ntX6AZaaSGc/edit?usp=sharing", "_blank", "noopener,noreferrer");
       });
-      $("btnDescargarHtml").addEventListener("click", () => {
-        const ok = renderPreview(); if (!ok) return;
-        const html = getSignatureHTML();
-        const doc = `<!doctype html><html lang="es"><meta charset="utf-8"><body style="margin:0">${html}</body></html>`;
-        const blob = new Blob([doc], {type:"text/html"});
-        const a = document.createElement("a");
-        a.href = URL.createObjectURL(blob);
-        a.download = "firma-cafe-las-flores.html";
-        a.click();
-        URL.revokeObjectURL(a.href);
-      });
-
+      $("btnCopiarHtml").addEventListener("click", copyHTML);
+      $("btnDescargarPng").addEventListener("click", async ()=>{
+        const ok = renderPreview();
+        if(!ok) return;
+        if (typeof html2canvas === "undefined") { alert("No se pudo cargar html2canvas."); return; }
+        const data = getData();
+        const host = document.createElement("div");
+        host.className = "captureHost";
+        host.innerHTML = buildFirmaHTML(data, true);
+        document.body.appendChild(host);
+        try{
+          const node = host.firstElementChild;
+          const canvas = await html2canvas(node, {
+            backgroundColor: "#ffffff", scale: 2, useCORS: true,
+            windowWidth: node.scrollWidth, windowHeight: node.scrollHeight
+          });
           const a = document.createElement("a");
           a.href = canvas.toDataURL("image/png");
           a.download = "firma-cafe-las-flores.png";
