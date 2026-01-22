@@ -56,7 +56,7 @@
 
     /* Vista previa firma */
     .sigWrap{border:1px dashed #cbd5e1; border-radius:14px; padding:14px; background:#fff;}
-    .firmaPreview{width:100%; display:flex; gap:2cm; align-items:center; background:#fff;} /* separación 2 cm */
+    .firmaPreview{width:100%; display:flex; gap:2cm; align-items:center; background:#fff;} /* 2 cm */
     .sigLeft{flex:1; min-width:220px;}
     .sigRight{display:flex; justify-content:flex-end; align-items:center;}
 
@@ -154,6 +154,7 @@
 
           <div class="actions">
             <button class="primary" id="btnDescargarHtml" type="button">Descargar firma (HTML)</button>
+            <button id="btnCopiarGmail" type="button">Copiar para Gmail (ligero)</button>
             <button id="btnGmail" type="button">Configura tu firma</button>
           </div>
         </div>
@@ -177,10 +178,13 @@
     // ===== Config =====
     const SIG_LOGO_URL = "assets/header-cafe.gif"; // GIF/PNG/JPG de la firma (no del header)
     const PHONE_PREFIX = "+(505)";
-    // Tamaños +30% (imagen 1 como referencia)
+    // Tamaños (+30% y 2 cm)
     const SIG_LOGO_PREVIEW_WIDTH = 195; // px (preview)
     const SIG_LOGO_EMAIL_WIDTH   = 195; // px (archivo HTML)
     const FS = { name:'24px', role:'18px', phone:'17px', web:'17px', addr:'16px' };
+    // URL absoluta base para el GIF externo (para Gmail). Cambiá si cambia el repo/dominio.
+    const ABS_BASE = location.origin + location.pathname.replace(/\/[^/]*$/, '/') ; // carpeta actual en GitHub Pages
+    const ABS_LOGO = new URL(SIG_LOGO_URL, ABS_BASE).href;
 
     // ===== Helpers =====
     const $ = (id) => document.getElementById(id);
@@ -222,7 +226,7 @@
       const isCapture = !!fixedWidth;
       const baseStyle = isCapture
         ? "display:inline-flex;gap:2cm;align-items:center;background:#fff;padding:12px 14px;border:1px solid #e5e7eb;border-radius:12px;"
-        : "width:100%;display:flex;gap:2cm;align-items:center;background:#fff;"; /* gap 2 cm */
+        : "width:100%;display:flex;gap:2cm;align-items:center;background:#fff;";
       const leftStyle = isCapture
         ? "flex:0 1 auto;min-width:220px;max-width:520px;"
         : "flex:1;min-width:220px;";
@@ -248,51 +252,70 @@
       `.trim();
     }
 
-    // ===== Firma TABLA para descarga (email-friendly) con GIF embebido =====
-    function buildFirmaTableHTML(data, dataUrlGif){
-      const safe = s => (s||"").replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
-      return `
-<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;background:#ffffff;border:1px solid #e5e7eb;border-radius:12px;font-family:Arial,Helvetica,sans-serif;">
+    // ===== Firma TABLA (ligera) para Gmail (URL absoluta, sin base64) =====
+    function buildFirmaEmailLite(data){
+      const s = (x)=> (x||"").replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+      return (
+`<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;background:#fff;border:1px solid #e5e7eb;border-radius:12px;font-family:Arial,Helvetica,sans-serif;">
   <tr>
     <td style="padding:14px 16px;">
       <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;">
         <tr>
-          <!-- Columna izquierda con padding-right de 2 cm -->
-          <td style="padding:0 2cm 0 0; vertical-align:top;">
-            <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;">
-              <tr><td style="font-weight:800;font-size:${FS.name};color:#111827;">${safe(data.nombre)}</td></tr>
-              <tr><td style="font-size:${FS.role};color:#111827;padding:4px 0 12px 0;">${safe(data.cargo)}</td></tr>
-              <tr><td style="font-size:${FS.phone};color:#111827;font-weight:800;padding:0 0 8px 0;">${safe(data.telefono)}</td></tr>
-              <tr><td style="font-size:${FS.web};color:#0b57d0;padding:0 0 8px 0;">
-                <a href="${safe(data.web)}" style="color:#0b57d0;text-decoration:none;font-weight:800;" target="_blank" rel="noopener">${safe(data.web)}</a>
-              </td></tr>
-              <tr><td style="font-size:${FS.addr};color:#374151;line-height:1.35;">${safe(data.direccion)}</td></tr>
+          <td style="padding:0 2cm 0 0;vertical-align:top;">
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+              <tr><td style="font-weight:800;font-size:${FS.name};color:#111827;">${s(data.nombre)}</td></tr>
+              <tr><td style="font-size:${FS.role};color:#111827;padding:4px 0 12px 0;">${s(data.cargo)}</td></tr>
+              <tr><td style="font-size:${FS.phone};color:#111827;font-weight:800;padding:0 0 8px 0;">${s(data.telefono)}</td></tr>
+              <tr><td style="font-size:${FS.web};padding:0 0 8px 0;"><a href="${s(data.web)}" style="color:#0b57d0;text-decoration:none;font-weight:800;" target="_blank" rel="noopener">${s(data.web)}</a></td></tr>
+              <tr><td style="font-size:${FS.addr};color:#374151;line-height:1.35;">${s(data.direccion)}</td></tr>
             </table>
           </td>
-          <td style="vertical-align:middle; text-align:right;">
+          <td style="vertical-align:middle;text-align:right;">
+            <img src="${s(ABS_LOGO)}" alt="Café Las Flores" width="${SIG_LOGO_EMAIL_WIDTH}" style="display:block;height:auto;border:0;outline:none;text-decoration:none;">
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>`
+      ).trim();
+    }
+
+    // ===== Firma TABLA (descarga local) con GIF embebido base64 =====
+    function buildFirmaTableHTML(data, dataUrlGif){
+      const s = (x)=> (x||"").replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+      return (
+`<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;background:#ffffff;border:1px solid #e5e7eb;border-radius:12px;font-family:Arial,Helvetica,sans-serif;">
+  <tr>
+    <td style="padding:14px 16px;">
+      <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;">
+        <tr>
+          <td style="padding:0 2cm 0 0;vertical-align:top;">
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+              <tr><td style="font-weight:800;font-size:${FS.name};color:#111827;">${s(data.nombre)}</td></tr>
+              <tr><td style="font-size:${FS.role};color:#111827;padding:4px 0 12px 0;">${s(data.cargo)}</td></tr>
+              <tr><td style="font-size:${FS.phone};color:#111827;font-weight:800;padding:0 0 8px 0;">${s(data.telefono)}</td></tr>
+              <tr><td style="font-size:${FS.web};padding:0 0 8px 0;"><a href="${s(data.web)}" style="color:#0b57d0;text-decoration:none;font-weight:800;" target="_blank" rel="noopener">${s(data.web)}</a></td></tr>
+              <tr><td style="font-size:${FS.addr};color:#374151;line-height:1.35;">${s(data.direccion)}</td></tr>
+            </table>
+          </td>
+          <td style="vertical-align:middle;text-align:right;">
             <img src="${dataUrlGif}" alt="Café Las Flores" width="${SIG_LOGO_EMAIL_WIDTH}" style="display:block;height:auto;border:0;outline:none;text-decoration:none;">
           </td>
         </tr>
       </table>
     </td>
   </tr>
-</table>`.trim();
+</table>`
+      ).trim();
     }
 
     // Modal
-    function openReqModal(){
-      const m = $("reqModal");
-      if(!m){ alert("Completa los campos requeridos."); return; }
-      m.classList.add("open");
-      setTimeout(()=> $("reqClose")?.focus(), 0);
-    }
+    function openReqModal(){ const m=$("reqModal"); if(!m){ alert("Completa los campos requeridos."); return; } m.classList.add("open"); setTimeout(()=> $("reqClose")?.focus(),0); }
     function closeReqModal(){ $("reqModal")?.classList.remove("open"); }
-    (function(){
-      const m = $("reqModal"), btn = $("reqClose");
-      if(btn) btn.addEventListener("click", closeReqModal);
-      if(m) m.addEventListener("click", (e)=>{ if(e.target.id === "reqModal") closeReqModal(); });
-      document.addEventListener("keydown", (e)=>{ if(e.key === "Escape") closeReqModal(); });
-    })();
+    (function(){ const m=$("reqModal"),btn=$("reqClose"); if(btn) btn.addEventListener("click", closeReqModal);
+      if(m) m.addEventListener("click",(e)=>{ if(e.target.id==="reqModal") closeReqModal();});
+      document.addEventListener("keydown",(e)=>{ if(e.key==="Escape") closeReqModal();}); })();
 
     // Render
     function renderPreview(){
@@ -303,28 +326,19 @@
       if(!data.cargo) firstMissing = firstMissing || "cargo";
       if(!data.telefonoNum || data.telefonoNum.length !== 8) firstMissing = firstMissing || "telefono_num";
       if(!data.direccion) firstMissing = firstMissing || "direccion";
-
       if(firstMissing){
         const el = $(firstMissing);
         el.classList.add("input-error","field-alert");
         el.focus({preventScroll:false});
         setTimeout(()=> el.classList.remove("field-alert"), 950);
-        $("sigPreview").innerHTML = `<div style="color:#6b7280;font-size:13px;">
-          Completa <b>Nombre</b>, <b>Cargo</b>, <b>Teléfono</b> y <b>Dirección</b> y presiona “Generar”.
-        </div>`;
-        openReqModal();
-        return false;
+        $("sigPreview").innerHTML = `<div style="color:#6b7280;font-size:13px;">Completa <b>Nombre</b>, <b>Cargo</b>, <b>Teléfono</b> y <b>Dirección</b> y presiona “Generar”.</div>`;
+        openReqModal(); return false;
       }
       $("sigPreview").innerHTML = buildFirmaHTML(data, false);
       return true;
     }
 
-    function getSignatureHTML(){
-      const data = getData();
-      return buildFirmaHTML(data, false);
-    }
-
-    // Helper: asset -> data URL (embebe el GIF en el HTML descargado)
+    // Helper: asset -> data URL (para la descarga local)
     async function toDataURL(url){
       const abs = new URL(url, location.href).href;
       const resp = await fetch(abs, {cache:"no-store"});
@@ -339,15 +353,13 @@
     // Eventos
     document.addEventListener("DOMContentLoaded", ()=>{
       $("btnGenerar").addEventListener("click", renderPreview);
-      $("btnLimpiar").addEventListener("click", ()=>{
-        ["nombre","cargo","telefono_num","direccion"].forEach(id => $(id).value = "");
-        renderPreview();
-      });
+      $("btnLimpiar").addEventListener("click", ()=>{ ["nombre","cargo","telefono_num","direccion"].forEach(id => $(id).value=""); renderPreview(); });
+
       $("btnGmail").addEventListener("click", ()=>{
         window.open("https://docs.google.com/document/d/1rwJR7VNI9PRI4qNyL5AO1308kTgkb6Y-ntX6AZaaSGc/edit?usp=sharing", "_blank", "noopener,noreferrer");
       });
 
-      // Descargar HTML (tabla + GIF embebido base64)
+      // Descargar HTML (local, con GIF embebido base64)
       $("btnDescargarHtml").addEventListener("click", async ()=>{
         const ok = renderPreview(); if (!ok) return;
         const data = getData();
@@ -362,16 +374,30 @@
         URL.revokeObjectURL(a.href);
       });
 
+      // Copiar firma ligera para Gmail (URL absoluta del GIF, HTML mínimo)
+      $("btnCopiarGmail").addEventListener("click", async ()=>{
+        const ok = renderPreview(); if (!ok) return;
+        const data = getData();
+        const html = buildFirmaEmailLite(data);
+        try{
+          if (window.ClipboardItem) {
+            const blob = new Blob([html], { type: 'text/html' });
+            await navigator.clipboard.write([new ClipboardItem({ 'text/html': blob })]);
+          } else {
+            await navigator.clipboard.writeText(html);
+          }
+          alert("Firma copiada. Pegala en Gmail > Configuración > Firma.");
+        }catch{
+          const ta=document.createElement("textarea"); ta.value=html; document.body.appendChild(ta); ta.select(); document.execCommand("copy"); ta.remove();
+          alert("Firma copiada (método alternativo).");
+        }
+      });
+
       // Modo "flush" (?flush=1) para iFrame
-      try{
-        const params = new URLSearchParams(location.search);
-        if (params.get('flush') === '1') document.body.classList.add('flush-body');
-      }catch{}
+      try{ const params = new URLSearchParams(location.search); if (params.get('flush')==='1') document.body.classList.add('flush-body'); }catch{}
 
       // Mensaje inicial
-      $("sigPreview").innerHTML = `<div style="color:#6b7280;font-size:13px;">
-        Completa <b>Nombre</b>, <b>Cargo</b>, <b>Teléfono</b> y <b>Dirección</b> y presiona “Generar”.
-      </div>`;
+      $("sigPreview").innerHTML = `<div style="color:#6b7280;font-size:13px;">Completa <b>Nombre</b>, <b>Cargo</b>, <b>Teléfono</b> y <b>Dirección</b> y presiona “Generar”.</div>`;
     });
   </script>
 </body>
