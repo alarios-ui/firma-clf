@@ -25,8 +25,30 @@
       margin:0 0 10px; font-size:34px; font-weight:800; color:#fff;
       text-shadow:0 0 4px rgba(255,255,255,.6),0 0 10px rgba(255,255,255,.35),1px 1px 2px rgba(0,0,0,.8);
     }
-    .headerImg{margin:6px 0 18px;}
-    .headerImg img{max-height:78px; width:auto; display:block;}
+
+    /* ===== Encabezado: SOLO logo con halo, sin fondo ===== */
+    .headerImg{ display:inline-block; position:relative; }
+    .headerImg img{
+      display:block;
+      max-height:78px;         /* altura de tu header */
+      height:auto;
+      background:transparent;  /* sin placa */
+      border-radius:10px;      /* quitá si tu logo no es redondeado */
+      filter:
+        drop-shadow(0 0 6px rgba(255,255,255,.85))
+        drop-shadow(0 0 14px rgba(255,255,255,.45)); /* halo blanco suave */
+    }
+    /* (Opcional) brillo sutil SIN fondo — descomentá si querés un poco más de glow */
+    /*
+    .headerImg::after{
+      content:"";
+      position:absolute; inset:-6px;
+      border-radius:12px; pointer-events:none; z-index:0;
+      background: radial-gradient(closest-side, rgba(255,255,255,.25), rgba(255,255,255,0) 65%);
+      filter: blur(2px);
+    }
+    .headerImg img{ position:relative; z-index:1; }
+    */
 
     .grid{display:grid; grid-template-columns:1fr 1fr; gap:18px; align-items:start;}
     @media (max-width:920px){ .grid{grid-template-columns:1fr;} }
@@ -177,7 +199,7 @@
     // ===== Config =====
     const SIG_LOGO_URL = "assets/header-cafe.gif"; // GIF/PNG/JPG de la firma (no del header)
     const PHONE_PREFIX = "+(505)";
-    // Reducción 10% vs versión anterior
+    // Reducción 10%
     const SIG_LOGO_PREVIEW_WIDTH = 176; // px (preview)
     const SIG_LOGO_EMAIL_WIDTH   = 176; // px (archivo ligero)
     const FS = { name:'22px', role:'16px', phone:'15px', web:'15px', addr:'14px' };
@@ -254,7 +276,7 @@
 
     // ===== Firma TABLA ligera (para descargar y pegar en Gmail) =====
     function buildFirmaEmailLite(data){
-      const s = x => (x||"").replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+      const s = x => (x||"").replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
       return (
 `<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;background:#fff;border:1px solid #e5e7eb;border-radius:12px;font-family:Arial,Helvetica,sans-serif;">
   <tr>
@@ -332,7 +354,7 @@
         window.open("https://docs.google.com/document/d/1rwJR7VNI9PRI4qNyL5AO1308kTgkb6Y-ntX6AZaaSGc/edit?usp=sharing", "_blank", "noopener,noreferrer");
       });
 
-      // Descargar HTML ligero (para Gmail)
+      // Descargar HTML (ligero, apto para Gmail)
       $("btnDescargarHtml").addEventListener("click", ()=>{
         const ok = renderPreview(); if (!ok) return;
         const data = getData();
@@ -360,6 +382,7 @@
   </script>
 </body>
 </html>
+
 
 
 
