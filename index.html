@@ -17,92 +17,369 @@
       background-size:cover; background-position:center;
       background-repeat:no-repeat; background-attachment:scroll;
     }
-    @media (min-width:769px){ body{ background-attachment:fixed; } }
 
-    .page-overlay{ min-height:100vh; background:rgba(0,0,0,.25); }
-    .wrap{max-width:980px; margin:0 auto; padding:18px 16px 28px;}
+    @media (min-width:769px){
+      body{ background-attachment:fixed; }
+    }
+
+    .page-overlay{
+      min-height:100vh;
+      background:rgba(0,0,0,.25);
+    }
+
+    .wrap{
+      max-width:1120px;
+      margin:0 auto;
+      padding:18px 16px 28px;
+    }
+
     h1{
-      margin:0 0 10px; font-size:34px; font-weight:800; color:#fff;
-      text-shadow:0 0 4px rgba(255,255,255,.6),0 0 10px rgba(255,255,255,.35),1px 1px 2px rgba(0,0,0,.8);
+      margin:0 0 10px;
+      font-size:34px;
+      font-weight:800;
+      color:#fff;
+      text-shadow:
+        0 0 4px rgba(255,255,255,.6),
+        0 0 10px rgba(255,255,255,.35),
+        1px 1px 2px rgba(0,0,0,.8);
     }
 
     /* ===== Encabezado: PNG con transparencia + halo suave, sin fondo ===== */
-    .headerImg{ display:inline-block; position:relative; }
+    .headerImg{
+      display:inline-block;
+      position:relative;
+    }
+
     .headerImg img{
       display:block;
-      max-height:78px;       /* altura de tu header */
+      max-height:78px;
       height:auto;
       background:transparent;
-      border-radius:10px;    /* quitá si no lo querés redondeado */
+      border-radius:10px;
       filter:
         drop-shadow(0 0 6px rgba(255,255,255,.85))
-        drop-shadow(0 0 14px rgba(255,255,255,.45)); /* halo blanco */
+        drop-shadow(0 0 14px rgba(255,255,255,.45));
     }
 
-    .grid{display:grid; grid-template-columns:1fr 1fr; gap:18px; align-items:start;}
-    @media (max-width:920px){ .grid{grid-template-columns:1fr;} }
+    .grid{
+      display:grid;
+      grid-template-columns:minmax(0, 1fr) minmax(430px, 1fr);
+      gap:18px;
+      align-items:start;
+    }
 
-    .card{border:1px solid var(--border); border-radius:14px; padding:16px; background:var(--soft);}
-    .card h2{margin:0 0 12px; font-size:16px;}
+    @media (max-width:920px){
+      .grid{
+        grid-template-columns:1fr;
+      }
+    }
 
-    .form{display:grid; gap:10px;}
-    .row{display:grid; grid-template-columns:120px 300px; gap:10px; align-items:center;}
-    @media (max-width:520px){ .row{grid-template-columns:1fr;} }
-    label{font-weight:700; font-size:13px;}
+    .card{
+      border:1px solid var(--border);
+      border-radius:14px;
+      padding:16px;
+      background:var(--soft);
+    }
+
+    .card h2{
+      margin:0 0 12px;
+      font-size:16px;
+    }
+
+    .form{
+      display:grid;
+      gap:10px;
+    }
+
+    .row{
+      display:grid;
+      grid-template-columns:120px 300px;
+      gap:10px;
+      align-items:center;
+    }
+
+    @media (max-width:520px){
+      .row{
+        grid-template-columns:1fr;
+      }
+    }
+
+    label{
+      font-weight:700;
+      font-size:13px;
+    }
+
     input{
-      width:300px; max-width:100%; box-sizing:border-box;
-      border:1px solid var(--border); border-radius:10px;
-      padding:10px 12px; font-size:14px; background:#fff; display:block; justify-self:start;
+      width:300px;
+      max-width:100%;
+      box-sizing:border-box;
+      border:1px solid var(--border);
+      border-radius:10px;
+      padding:10px 12px;
+      font-size:14px;
+      background:#fff;
+      display:block;
+      justify-self:start;
     }
-    input[readonly]{background:#f3f4f6; color:#374151;}
 
-    .actions{display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;}
-    button{border:1px solid var(--border); background:#fff; padding:10px 12px; border-radius:10px; cursor:pointer; font-weight:700;}
-    button.primary{background:#111827; color:#fff; border-color:#111827;}
+    input[readonly]{
+      background:#f3f4f6;
+      color:#374151;
+    }
+
+    .actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:10px;
+    }
+
+    .preview-actions{
+      flex-wrap:nowrap;
+    }
+
+    @media (max-width:920px){
+      .preview-actions{
+        flex-wrap:wrap;
+      }
+    }
+
+    button{
+      border:1px solid var(--border);
+      background:#fff;
+      padding:10px 12px;
+      border-radius:10px;
+      cursor:pointer;
+      font-weight:700;
+      white-space:nowrap;
+    }
+
+    button.primary{
+      background:#111827;
+      color:#fff;
+      border-color:#111827;
+    }
 
     /* Teléfono */
-    .phoneWrap{display:flex; gap:8px; align-items:center; width:300px; max-width:100%;}
-    .phonePrefix{border:1px solid var(--border); border-radius:10px; padding:10px 12px; background:#f3f4f6; color:#374151; font-size:14px; white-space:nowrap;}
-    .phoneWrap input{flex:1; min-width:0; width:auto;}
+    .phoneWrap{
+      display:flex;
+      gap:8px;
+      align-items:center;
+      width:300px;
+      max-width:100%;
+    }
+
+    .phonePrefix{
+      border:1px solid var(--border);
+      border-radius:10px;
+      padding:10px 12px;
+      background:#f3f4f6;
+      color:#374151;
+      font-size:14px;
+      white-space:nowrap;
+    }
+
+    .phoneWrap input{
+      flex:1;
+      min-width:0;
+      width:auto;
+    }
 
     /* Vista previa firma */
-    .sigWrap{border:1px dashed #cbd5e1; border-radius:14px; padding:14px; background:#fff;}
-    .firmaPreview{width:100%; display:flex; gap:2cm; align-items:center; background:#fff;} /* 2 cm */
-    .sigLeft{flex:1; min-width:220px;}
-    .sigRight{display:flex; justify-content:flex-end; align-items:center;}
+    .sigWrap{
+      border:1px dashed #cbd5e1;
+      border-radius:14px;
+      padding:14px;
+      background:#fff;
+    }
+
+    .firmaPreview{
+      width:100%;
+      display:flex;
+      gap:2cm;
+      align-items:center;
+      background:#fff;
+    }
+
+    .sigLeft{
+      flex:1;
+      min-width:220px;
+    }
+
+    .sigRight{
+      display:flex;
+      justify-content:flex-end;
+      align-items:center;
+    }
 
     /* Modal */
-    .modal-backdrop{ position:fixed; inset:0; background:rgba(0,0,0,.28); display:none; align-items:center; justify-content:center; z-index:9999; }
-    .modal-backdrop.open{ display:flex; }
-    .modal{
-      position:relative; width:calc(100% - 32px); max-width:520px; border-radius:16px; padding:20px 18px; color:var(--modal-text);
-      background: radial-gradient(120% 120% at 50% -10%, rgba(255,255,255,.16), transparent 60%), linear-gradient(180deg, rgba(70,62,58,.72), var(--modal-bg));
-      backdrop-filter: blur(5px) saturate(120%); border:2px solid var(--modal-border);
-      box-shadow:0 8px 20px rgba(0,0,0,.22), 0 0 0 3px rgba(185,28,28,.07);
+    .modal-backdrop{
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.28);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      z-index:9999;
     }
-    .modal::before{ content:""; position:absolute; left:14px; right:14px; top:10px; height:3px; border-radius:3px;
-      background:linear-gradient(90deg,#b91c1c,#f97316 60%,#b91c1c); opacity:.55; }
-    .modal h3{ margin:8px 0 12px; font-size:18px; }
-    .modal p{ margin:0 0 14px; color:var(--modal-muted); }
-    .modal .actions .primary{ border:0; background:linear-gradient(135deg,#0f172a,#111827 35%,#1f2937 100%); color:#fff; padding:10px 14px; border-radius:12px; font-weight:800; box-shadow:0 4px 10px rgba(0,0,0,.22); }
-    .modal .actions .primary:hover{ filter:brightness(1.07); }
-    .modal .actions .primary:active{ transform:translateY(1px); }
-    #reqTitle{ display:inline-block; margin:0 0 10px; padding:8px 12px; border:2px solid var(--modal-border); border-radius:10px; color:#b91c1c; background:#fff5f5;
-      font-weight:800; text-decoration:underline; text-underline-offset:4px; letter-spacing:.2px; box-shadow:0 2px 6px rgba(185,28,28,.10); }
-    #reqDesc b{ color:#b91c1c; text-shadow:0 0 1px #fff,-1px 0 #fff,1px 0 #fff,0 -1px #fff,0 1px #fff,-1px -1px #fff,1px -1px #fff,-1px 1px #fff,1px 1px #fff; }
-    .modal-backdrop.open .modal{ animation:modalPop .16s ease-out; }
-    @keyframes modalPop{ from{transform:scale(.97);opacity:.9;} to{transform:scale(1);opacity:1;} }
 
-    .input-error{ border-color:#ef4444 !important; box-shadow:0 0 0 3px rgba(239,68,68,.15); }
-    .field-alert{ animation:fieldPulse .9s ease-out 1; }
-    @keyframes fieldPulse{ 0%{ box-shadow:0 0 0 0 rgba(239,68,68,.35); transform:scale(1);} 30%{ box-shadow:0 0 0 6px rgba(239,68,68,.15); transform:scale(1.01);} 60%{ box-shadow:0 0 0 3px rgba(239,68,68,.20); transform:scale(1);} 100%{ box-shadow:0 0 0 0 rgba(239,68,68,0); transform:scale(1);} }
+    .modal-backdrop.open{
+      display:flex;
+    }
+
+    .modal{
+      position:relative;
+      width:calc(100% - 32px);
+      max-width:520px;
+      border-radius:16px;
+      padding:20px 18px;
+      color:var(--modal-text);
+      background:
+        radial-gradient(120% 120% at 50% -10%, rgba(255,255,255,.16), transparent 60%),
+        linear-gradient(180deg, rgba(70,62,58,.72), var(--modal-bg));
+      backdrop-filter: blur(5px) saturate(120%);
+      border:2px solid var(--modal-border);
+      box-shadow:
+        0 8px 20px rgba(0,0,0,.22),
+        0 0 0 3px rgba(185,28,28,.07);
+    }
+
+    .modal::before{
+      content:"";
+      position:absolute;
+      left:14px;
+      right:14px;
+      top:10px;
+      height:3px;
+      border-radius:3px;
+      background:linear-gradient(90deg,#b91c1c,#f97316 60%,#b91c1c);
+      opacity:.55;
+    }
+
+    .modal h3{
+      margin:8px 0 12px;
+      font-size:18px;
+    }
+
+    .modal p{
+      margin:0 0 14px;
+      color:var(--modal-muted);
+    }
+
+    .modal .actions .primary{
+      border:0;
+      background:linear-gradient(135deg,#0f172a,#111827 35%,#1f2937 100%);
+      color:#fff;
+      padding:10px 14px;
+      border-radius:12px;
+      font-weight:800;
+      box-shadow:0 4px 10px rgba(0,0,0,.22);
+    }
+
+    .modal .actions .primary:hover{
+      filter:brightness(1.07);
+    }
+
+    .modal .actions .primary:active{
+      transform:translateY(1px);
+    }
+
+    #reqTitle{
+      display:inline-block;
+      margin:0 0 10px;
+      padding:8px 12px;
+      border:2px solid var(--modal-border);
+      border-radius:10px;
+      color:#b91c1c;
+      background:#fff5f5;
+      font-weight:800;
+      text-decoration:underline;
+      text-underline-offset:4px;
+      letter-spacing:.2px;
+      box-shadow:0 2px 6px rgba(185,28,28,.10);
+    }
+
+    #reqDesc b{
+      color:#b91c1c;
+      text-shadow:
+        0 0 1px #fff,
+        -1px 0 #fff,
+        1px 0 #fff,
+        0 -1px #fff,
+        0 1px #fff,
+        -1px -1px #fff,
+        1px -1px #fff,
+        -1px 1px #fff,
+        1px 1px #fff;
+    }
+
+    .modal-backdrop.open .modal{
+      animation:modalPop .16s ease-out;
+    }
+
+    @keyframes modalPop{
+      from{
+        transform:scale(.97);
+        opacity:.9;
+      }
+      to{
+        transform:scale(1);
+        opacity:1;
+      }
+    }
+
+    .input-error{
+      border-color:#ef4444 !important;
+      box-shadow:0 0 0 3px rgba(239,68,68,.15);
+    }
+
+    .field-alert{
+      animation:fieldPulse .9s ease-out 1;
+    }
+
+    @keyframes fieldPulse{
+      0%{
+        box-shadow:0 0 0 0 rgba(239,68,68,.35);
+        transform:scale(1);
+      }
+      30%{
+        box-shadow:0 0 0 6px rgba(239,68,68,.15);
+        transform:scale(1.01);
+      }
+      60%{
+        box-shadow:0 0 0 3px rgba(239,68,68,.20);
+        transform:scale(1);
+      }
+      100%{
+        box-shadow:0 0 0 0 rgba(239,68,68,0);
+        transform:scale(1);
+      }
+    }
 
     /* Flush para iFrame */
-    .flush-body .page-overlay{ background:transparent; }
-    .flush-body .wrap{ padding:0; max-width:none; }
-    .flush-body .grid{ gap:0; }
-    .flush-body .card{ border:0; border-radius:0; background:transparent; padding:0; }
-    .flush-body h1{ display:none; }
+    .flush-body .page-overlay{
+      background:transparent;
+    }
+
+    .flush-body .wrap{
+      padding:0;
+      max-width:none;
+    }
+
+    .flush-body .grid{
+      gap:0;
+    }
+
+    .flush-body .card{
+      border:0;
+      border-radius:0;
+      background:transparent;
+      padding:0;
+    }
+
+    .flush-body h1{
+      display:none;
+    }
   </style>
 </head>
 
@@ -112,7 +389,6 @@
       <h1>Genera tu Firma Digital</h1>
 
       <div class="headerImg">
-        <!-- NUEVO: logo con transparencia -->
         <img src="assets/logo-clf-transp.png" alt="Café Las Flores">
       </div>
 
@@ -160,13 +436,15 @@
         <!-- Tarjeta: Vista previa -->
         <div class="card">
           <h2>Vista previa</h2>
+
           <div class="sigWrap">
             <div id="sigPreview" role="region" aria-live="polite"></div>
           </div>
 
-          <div class="actions">
+          <div class="actions preview-actions">
             <button class="primary" id="btnDescargarHtml" type="button">Descargar Firma (Gmail)</button>
             <button id="btnGmail" type="button">Configura tu firma</button>
+            <button id="btnVideoGuiado" type="button">Video Guiado</button>
           </div>
         </div>
       </div>
@@ -178,7 +456,9 @@
        aria-labelledby="reqTitle" aria-describedby="reqDesc">
     <div class="modal">
       <h3 id="reqTitle">Campos incompletos</h3>
-      <p id="reqDesc">Para generar la firma, completá <b>Nombre</b>, <b>Cargo</b>, <b>Teléfono</b> y <b>Dirección</b>.</p>
+      <p id="reqDesc">
+        Para generar la firma, completá <b>Nombre</b>, <b>Cargo</b>, <b>Teléfono</b> y <b>Dirección</b>.
+      </p>
       <div class="actions">
         <button id="reqClose" class="primary" type="button" aria-label="Cerrar aviso">Entendido</button>
       </div>
@@ -187,12 +467,20 @@
 
   <script>
     // ===== Config =====
-    const SIG_LOGO_URL = "assets/header-cafe2.gif"; // GIF/PNG/JPG de la firma (no del header)
+    const SIG_LOGO_URL = "assets/header-cafe2.gif";
     const PHONE_PREFIX = "+(505)";
+
     // Reducción 10%
-    const SIG_LOGO_PREVIEW_WIDTH = 176; // px (preview)
-    const SIG_LOGO_EMAIL_WIDTH   = 176; // px (archivo ligero)
-    const FS = { name:'22px', role:'16px', phone:'15px', web:'15px', addr:'14px' };
+    const SIG_LOGO_PREVIEW_WIDTH = 176;
+    const SIG_LOGO_EMAIL_WIDTH   = 176;
+
+    const FS = {
+      name:'22px',
+      role:'16px',
+      phone:'15px',
+      web:'15px',
+      addr:'14px'
+    };
 
     // URL absoluta del GIF para el HTML ligero (Gmail-friendly)
     const ABS_BASE = location.origin + location.pathname.replace(/\/[^/]*$/, '/');
@@ -200,22 +488,45 @@
 
     // ===== Helpers =====
     const $ = (id) => document.getElementById(id);
-    const digitsOnly = s => (s||"").replace(/\D/g,"");
-    const esc = (s) => (s||"").replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+    const digitsOnly = s => (s || "").replace(/\D/g,"");
+
+    const esc = (s) => (s || "").replace(/[&<>"]/g, c => ({
+      '&':'&amp;',
+      '<':'&lt;',
+      '>':'&gt;',
+      '"':'&quot;'
+    }[c]));
 
     // Teléfono: sólo números + autoformato dddd dddd
     (function enforcePhone(){
       const input = $("telefono_num");
       if(!input) return;
+
       input.addEventListener("keydown",(e)=>{
-        const allowed=["Backspace","Delete","Tab","Escape","Enter","ArrowLeft","ArrowRight","Home","End"," ","-"];
+        const allowed = [
+          "Backspace",
+          "Delete",
+          "Tab",
+          "Escape",
+          "Enter",
+          "ArrowLeft",
+          "ArrowRight",
+          "Home",
+          "End",
+          " ",
+          "-"
+        ];
+
         const isCtrlCmd = e.ctrlKey || e.metaKey;
+
         if (allowed.includes(e.key) || isCtrlCmd) return;
         if (!/^[0-9]$/.test(e.key)) e.preventDefault();
       });
+
       input.addEventListener("input", ()=>{
         let v = digitsOnly(input.value).slice(0,8);
-        if(v.length>4) v = v.slice(0,4)+" "+v.slice(4);
+        if(v.length > 4) v = v.slice(0,4) + " " + v.slice(4);
         input.value = v;
       });
     })();
@@ -224,6 +535,7 @@
     function getData(){
       const phoneFormatted = $("telefono_num").value.trim();
       const phoneDigits = digitsOnly(phoneFormatted);
+
       return {
         nombre: $("nombre").value.trim(),
         cargo: $("cargo").value.trim(),
@@ -236,12 +548,15 @@
 
     function buildFirmaHTML(data, fixedWidth){
       const isCapture = !!fixedWidth;
+
       const baseStyle = isCapture
         ? "display:inline-flex;gap:2cm;align-items:center;background:#fff;padding:12px 14px;border:1px solid #e5e7eb;border-radius:12px;"
         : "width:100%;display:flex;gap:2cm;align-items:center;background:#fff;";
+
       const leftStyle = isCapture
         ? "flex:0 1 auto;min-width:220px;max-width:520px;"
         : "flex:1;min-width:220px;";
+
       const logoStyle = isCapture
         ? `width:${SIG_LOGO_EMAIL_WIDTH}px;height:auto;display:block;`
         : `width:${SIG_LOGO_PREVIEW_WIDTH}px;max-width:100%;height:auto;display:block;`;
@@ -252,7 +567,7 @@
             <div class="sigName" style="font-size:${FS.name};font-weight:800;margin:0 0 6px;">${esc(data.nombre)}</div>
             <div class="sigRole" style="font-size:${FS.role};margin:0 0 12px;color:#111827;">${esc(data.cargo)}</div>
             <div class="sigPhone" style="font-size:${FS.phone};font-weight:800;margin:0 0 8px;">${esc(data.telefono)}</div>
-            <div class="sigWeb"  style="font-size:${FS.web};font-weight:800;">
+            <div class="sigWeb" style="font-size:${FS.web};font-weight:800;">
               <a href="${esc(data.web)}" style="color:#0b57d0;text-decoration:none;" rel="noopener">${esc(data.web)}</a>
             </div>
             <div class="sigAddr" style="font-size:${FS.addr};color:#374151;margin-top:10px;line-height:1.35;">${esc(data.direccion)}</div>
@@ -266,7 +581,13 @@
 
     // ===== Firma TABLA ligera (para descargar y pegar en Gmail) =====
     function buildFirmaEmailLite(data){
-      const s = x => (x||"").replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+      const s = x => (x || "").replace(/[&<>"]/g, c => ({
+        '&':'&amp;',
+        '<':'&lt;',
+        '>':'&gt;',
+        '"':'&quot;'
+      }[c]));
+
       return (
 `<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;background:#fff;border:1px solid #e5e7eb;border-radius:12px;font-family:Arial,Helvetica,sans-serif;">
   <tr>
@@ -296,23 +617,47 @@
     // Modal
     function openReqModal(){
       const m = $("reqModal");
-      if(!m){ alert("Completa los campos requeridos."); return; }
+
+      if(!m){
+        alert("Completa los campos requeridos.");
+        return;
+      }
+
       m.classList.add("open");
-      setTimeout(()=> $("reqClose")?.focus(), 0);
+      setTimeout(() => $("reqClose")?.focus(), 0);
     }
-    function closeReqModal(){ $("reqModal")?.classList.remove("open"); }
+
+    function closeReqModal(){
+      $("reqModal")?.classList.remove("open");
+    }
+
     (function(){
-      const m = $("reqModal"), btn = $("reqClose");
+      const m = $("reqModal");
+      const btn = $("reqClose");
+
       if(btn) btn.addEventListener("click", closeReqModal);
-      if(m) m.addEventListener("click", (e)=>{ if(e.target.id === "reqModal") closeReqModal(); });
-      document.addEventListener("keydown", (e)=>{ if(e.key === "Escape") closeReqModal(); });
+
+      if(m){
+        m.addEventListener("click", (e)=>{
+          if(e.target.id === "reqModal") closeReqModal();
+        });
+      }
+
+      document.addEventListener("keydown", (e)=>{
+        if(e.key === "Escape") closeReqModal();
+      });
     })();
 
     // Render
     function renderPreview(){
       const data = getData();
-      ["nombre","cargo","telefono_num","direccion"].forEach(id => $(id).classList.remove("input-error","field-alert"));
+
+      ["nombre","cargo","telefono_num","direccion"].forEach(id => {
+        $(id).classList.remove("input-error","field-alert");
+      });
+
       let firstMissing = null;
+
       if(!data.nombre) firstMissing = firstMissing || "nombre";
       if(!data.cargo) firstMissing = firstMissing || "cargo";
       if(!data.telefonoNum || data.telefonoNum.length !== 8) firstMissing = firstMissing || "telefono_num";
@@ -320,15 +665,20 @@
 
       if(firstMissing){
         const el = $(firstMissing);
+
         el.classList.add("input-error","field-alert");
         el.focus({preventScroll:false});
-        setTimeout(()=> el.classList.remove("field-alert"), 950);
+
+        setTimeout(() => el.classList.remove("field-alert"), 950);
+
         $("sigPreview").innerHTML = `<div style="color:#6b7280;font-size:13px;">
           Completa <b>Nombre</b>, <b>Cargo</b>, <b>Teléfono</b> y <b>Dirección</b> y presiona “Generar”.
         </div>`;
+
         openReqModal();
         return false;
       }
+
       $("sigPreview").innerHTML = buildFirmaHTML(data, false);
       return true;
     }
@@ -336,25 +686,44 @@
     // Eventos
     document.addEventListener("DOMContentLoaded", ()=>{
       $("btnGenerar").addEventListener("click", renderPreview);
+
       $("btnLimpiar").addEventListener("click", ()=>{
         ["nombre","cargo","telefono_num","direccion"].forEach(id => $(id).value = "");
         renderPreview();
       });
+
       $("btnGmail").addEventListener("click", ()=>{
-        window.open("https://docs.google.com/document/d/1rwJR7VNI9PRI4qNyL5AO1308kTgkb6Y-ntX6AZaaSGc/edit?usp=sharing", "_blank", "noopener,noreferrer");
+        window.open(
+          "https://docs.google.com/document/d/1rwJR7VNI9PRI4qNyL5AO1308kTgkb6Y-ntX6AZaaSGc/edit?usp=sharing",
+          "_blank",
+          "noopener,noreferrer"
+        );
+      });
+
+      $("btnVideoGuiado").addEventListener("click", ()=>{
+        window.open(
+          "https://www.loom.com/share/f673660c5cdc4aaebe6c856126f74ade",
+          "_blank",
+          "noopener,noreferrer"
+        );
       });
 
       // Descargar HTML (ligero, apto para Gmail)
       $("btnDescargarHtml").addEventListener("click", ()=>{
-        const ok = renderPreview(); if (!ok) return;
+        const ok = renderPreview();
+        if (!ok) return;
+
         const data = getData();
         const html = buildFirmaEmailLite(data);
         const doc = `<!doctype html><html lang="es"><meta charset="utf-8"><body style="margin:0">${html}</body></html>`;
+
         const blob = new Blob([doc], {type:"text/html"});
         const a = document.createElement("a");
+
         a.href = URL.createObjectURL(blob);
         a.download = "firma-cafe-las-flores.html";
         a.click();
+
         URL.revokeObjectURL(a.href);
       });
 
